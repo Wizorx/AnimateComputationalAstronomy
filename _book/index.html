@@ -35,7 +35,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./começo/comeco.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -81,16 +81,17 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
-<script data-marimo="true">
-    Object.defineProperty(window, "__MARIMO_EXPORT_CONTEXT__", {
-        value: Object.freeze({
-            trusted: true,
-            notebookCode: "# /// script\n# requires-python = \"\u003E=3.11\"\n# dependencies = [\n#   \"marimo\u003E=0.23.1\",\n#   \"wigglystuff\",\n#   \"manim-widget\",\n#   \"jsonschema\",\n#   \"manim\"\n# ]\n# ///\nimport marimo\n\n__generated_with = \"0.23.14\"\napp = marimo.App()\n\n\n@app.cell\ndef _():\n    from manim import UP, DEGREES, OUT, IN, Cylinder, VGroup, always_rotate, ORIGIN, Arrow3D, TracedPath\n    from manim_widget import ManimWidget\n\n    return (\n        Cylinder,\n        DEGREES,\n        IN,\n        ManimWidget,\n        ORIGIN,\n        OUT,\n        UP,\n        VGroup,\n        always_rotate,\n    )\n\n\n@app.cell\ndef _(\n    Cylinder,\n    DEGREES,\n    IN,\n    ManimWidget,\n    ORIGIN,\n    OUT,\n    UP,\n    VGroup,\n    always_rotate,\n):\n    class Dumbbell(ManimWidget):\n        def construct(self):\n            self.set_camera_orientation(phi=90*DEGREES)\n            dumbbellEnd1 = Cylinder(1, .5).shift(OUT*1.5)\n            dumbbellEnd2 = Cylinder(1, .5).shift(IN*1.5)\n            dumbbellShaft = Cylinder(.08, 2.5)#.shift(OUT)\n            dumbbell = VGroup(dumbbellEnd1, dumbbellEnd2, dumbbellShaft).rotate(30*DEGREES, UP)\n            self.add(dumbbell)\n            always_rotate(dumbbell, 3.1415, about_point=ORIGIN, axis=OUT)\n\n    return (Dumbbell,)\n\n\n@app.cell\ndef _(Dumbbell):\n    Dumbbell(is_3d=True)\n    return\n\n\nif __name__ == \"__main__\":\n    app.run()\n",
-        }),
-        writable: false,
-        configurable: false,
-    });
-</script></head><body class="nav-sidebar floating fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<style>
+.cell-output {
+  max-height: 500px;
+  overflow-y: auto;
+}
+</style>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -261,24 +262,7 @@ ul.task-list li input[type="checkbox"] {
     } else {
       toggleColorMode(false);
     }
-  </script><marimo-code hidden="">%23%20%2F%2F%2F%20script%0A%23%20requires-python%20%3D%20%22%3E%3D3.11%22%0A%23%20dependencies%20%3D%20%5B%0A%23%20%20%20%22marimo%3E%3D0.23.1%22%2C%0A%23%20%20%20%22wigglystuff%22%2C%0A%23%20%20%20%22manim-widget%22%2C%0A%23%20%20%20%22jsonschema%22%2C%0A%23%20%20%20%22manim%22%0A%23%20%5D%0A%23%20%2F%2F%2F%0Aimport%20marimo%0A%0A__generated_with%20%3D%20%220.23.14%22%0Aapp%20%3D%20marimo.App%28%29%0A%0A%0A%40app.cell%0Adef%20_%28%29%3A%0A%20%20%20%20from%20manim%20import%20UP%2C%20DEGREES%2C%20OUT%2C%20IN%2C%20Cylinder%2C%20VGroup%2C%20always_rotate%2C%20ORIGIN%2C%20Arrow3D%2C%20TracedPath%0A%20%20%20%20from%20manim_widget%20import%20ManimWidget%0A%0A%20%20%20%20return%20%28%0A%20%20%20%20%20%20%20%20Cylinder%2C%0A%20%20%20%20%20%20%20%20DEGREES%2C%0A%20%20%20%20%20%20%20%20IN%2C%0A%20%20%20%20%20%20%20%20ManimWidget%2C%0A%20%20%20%20%20%20%20%20ORIGIN%2C%0A%20%20%20%20%20%20%20%20OUT%2C%0A%20%20%20%20%20%20%20%20UP%2C%0A%20%20%20%20%20%20%20%20VGroup%2C%0A%20%20%20%20%20%20%20%20always_rotate%2C%0A%20%20%20%20%29%0A%0A%0A%40app.cell%0Adef%20_%28%0A%20%20%20%20Cylinder%2C%0A%20%20%20%20DEGREES%2C%0A%20%20%20%20IN%2C%0A%20%20%20%20ManimWidget%2C%0A%20%20%20%20ORIGIN%2C%0A%20%20%20%20OUT%2C%0A%20%20%20%20UP%2C%0A%20%20%20%20VGroup%2C%0A%20%20%20%20always_rotate%2C%0A%29%3A%0A%20%20%20%20class%20Dumbbell%28ManimWidget%29%3A%0A%20%20%20%20%20%20%20%20def%20construct%28self%29%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20self.set_camera_orientation%28phi%3D90%2ADEGREES%29%0A%20%20%20%20%20%20%20%20%20%20%20%20dumbbellEnd1%20%3D%20Cylinder%281%2C%20.5%29.shift%28OUT%2A1.5%29%0A%20%20%20%20%20%20%20%20%20%20%20%20dumbbellEnd2%20%3D%20Cylinder%281%2C%20.5%29.shift%28IN%2A1.5%29%0A%20%20%20%20%20%20%20%20%20%20%20%20dumbbellShaft%20%3D%20Cylinder%28.08%2C%202.5%29%23.shift%28OUT%29%0A%20%20%20%20%20%20%20%20%20%20%20%20dumbbell%20%3D%20VGroup%28dumbbellEnd1%2C%20dumbbellEnd2%2C%20dumbbellShaft%29.rotate%2830%2ADEGREES%2C%20UP%29%0A%20%20%20%20%20%20%20%20%20%20%20%20self.add%28dumbbell%29%0A%20%20%20%20%20%20%20%20%20%20%20%20always_rotate%28dumbbell%2C%203.1415%2C%20about_point%3DORIGIN%2C%20axis%3DOUT%29%0A%0A%20%20%20%20return%20%28Dumbbell%2C%29%0A%0A%0A%40app.cell%0Adef%20_%28Dumbbell%29%3A%0A%20%20%20%20Dumbbell%28is_3d%3DTrue%29%0A%20%20%20%20return%0A%0A%0Aif%20__name__%20%3D%3D%20%22__main__%22%3A%0A%20%20%20%20app.run%28%29%0A</marimo-code><script type="module" src="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.14/dist/main.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.14/dist/style.css" rel="stylesheet" title="marimo-islands" crossorigin="anonymous">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&amp;family=Lora&amp;family=PT+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww" crossorigin="anonymous">
-<marimo-filename hidden=""></marimo-filename>
-<style>
-.cell-output {
-  max-height: 500px;
-  overflow-y: auto;
-}
-</style>
-
-
-
-
-
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -287,7 +271,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introdução</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -318,13 +302,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+ <span class="menu-text">Introdução</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -339,13 +317,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./começo/comeco.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Primeiros Passos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Primeiros Passos</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./POO.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Python Orientado a Objetos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Python Orientado a Objetos</span></span></a>
   </div>
 </li>
       </ul>
@@ -362,31 +340,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./os&amp;np.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">OS e Numpy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">OS e Numpy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./matplotlib.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Matplotlib</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matplotlib</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pandas/pandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Pandas</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Pandas</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./astropy/astropy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Astropy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Astropy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./astroquery/astroquery.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Astroquery</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Astroquery</span></span></a>
   </div>
 </li>
       </ul>
@@ -403,13 +381,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./latex.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LaTeX</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">LaTeX</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./git.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Git</span></span></a>
   </div>
 </li>
       </ul>
@@ -426,31 +404,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./raizes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Raízes de Funções</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Raízes de Funções</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ajuste/ajuste.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Ajuste de Funções</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ajuste de Funções</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./montecarlo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Simulações de Montecarlo</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Simulações de Montecarlo</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./calculo/calculo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cálculo Numérico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Cálculo Numérico</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./edos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Equações Diferenciais Ordinárias (EDOs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Equações Diferenciais Ordinárias (EDOs)</span></span></a>
   </div>
 </li>
       </ul>
@@ -483,7 +461,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">Introdução</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -514,24 +500,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<marimo-island data-app-id="main" data-cell-id="Hbol" data-reactive="true">
-    <marimo-cell-output>
-    <span></span>
-    </marimo-cell-output>
-    <marimo-cell-code hidden="">from%20manim%20import%20UP%2C%20DEGREES%2C%20OUT%2C%20IN%2C%20Cylinder%2C%20VGroup%2C%20always_rotate%2C%20ORIGIN%2C%20Arrow3D%2C%20TracedPath%0Afrom%20manim_widget%20import%20ManimWidget</marimo-cell-code>
-</marimo-island>
-<marimo-island data-app-id="main" data-cell-id="MJUe" data-reactive="true">
-    <marimo-cell-output>
-    <span></span>
-    </marimo-cell-output>
-    <marimo-cell-code hidden="">class%20Dumbbell(ManimWidget)%3A%0A%20%20%20%20def%20construct(self)%3A%0A%20%20%20%20%20%20%20%20self.set_camera_orientation(phi%3D90*DEGREES)%0A%20%20%20%20%20%20%20%20dumbbellEnd1%20%3D%20Cylinder(1%2C%20.5).shift(OUT*1.5)%0A%20%20%20%20%20%20%20%20dumbbellEnd2%20%3D%20Cylinder(1%2C%20.5).shift(IN*1.5)%0A%20%20%20%20%20%20%20%20dumbbellShaft%20%3D%20Cylinder(.08%2C%202.5)%23.shift(OUT)%0A%20%20%20%20%20%20%20%20dumbbell%20%3D%20VGroup(dumbbellEnd1%2C%20dumbbellEnd2%2C%20dumbbellShaft).rotate(30*DEGREES%2C%20UP)%0A%20%20%20%20%20%20%20%20self.add(dumbbell)%0A%20%20%20%20%20%20%20%20always_rotate(dumbbell%2C%203.1415%2C%20about_point%3DORIGIN%2C%20axis%3DOUT)</marimo-cell-code>
-</marimo-island>
-<marimo-island data-app-id="main" data-cell-id="vblA" data-reactive="true">
-    <marimo-cell-output>
-    <marimo-ui-element object-id="vblA-0" random-id="881535ae-ea99-9475-6e08-53abc8f17483"><marimo-anywidget data-initial-value="{&quot;model_id&quot;:&quot;b0e046df4595426a96c7fa2faa8084c2&quot;}" data-label="null" data-model-id="&quot;b0e046df4595426a96c7fa2faa8084c2&quot;"></marimo-anywidget></marimo-ui-element>
-    </marimo-cell-output>
-    <marimo-cell-code hidden="">Dumbbell(is_3d%3DTrue)</marimo-cell-code>
-</marimo-island>
+<section id="introdução" class="level1 unnumbered">
+<h1 class="unnumbered">Introdução</h1>
 
 
 <script type="ojs-module-contents">
@@ -548,6 +518,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
@@ -978,8 +949,8 @@ window._ojs.runtime.interpretFromScriptTags();
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Introdução">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./começo/comeco.html" class="pagination-link" aria-label="Primeiros Passos">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Primeiros Passos</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

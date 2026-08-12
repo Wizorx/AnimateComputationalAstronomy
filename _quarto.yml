@@ -8,7 +8,6 @@ book:
     - "Luan M. Moraes (Org.)"
   chapters:
     - index.qmd
-    - intro.qmd
     - part: "Python Básico"
       chapters:
         - começo/comeco.qmd
@@ -61,5 +60,3 @@ format:
             overflow-y: auto;
           }
           </style>
-  pdf:
-    documentclass: scrreprt

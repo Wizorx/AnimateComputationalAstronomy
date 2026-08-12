@@ -760,7 +760,7 @@ pl.plot(new_dado[:,50], 'k.-')
 ```
 
 ```{python}
-fits.writeto('new_fig.fits', new_dado)
+fits.writeto('new_fig.fits', new_dado, overwrite=True)
 ```
 
 # Isso é tudo
