@@ -1,0 +1,3 @@
+# Lógica Booleana {#sec-appendix-a}
+
+

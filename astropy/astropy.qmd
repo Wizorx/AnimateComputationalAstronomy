@@ -1,0 +1,768 @@
+---
+title: Astropy
+jupyter: python3
+packages: astropy
+---
+
+
+## 1) Visão Geral
+<a id="pt1"></a>
+
+Detalhes sobre o pacote Astropy podem ser encontrados em [www.astropy.org](https://www.astropy.org/)
+
+#### Data structures and transformations
+- Constants (`astropy.constants`)
+- Units and Quantities (`astropy.units`)
+- N-Dimensional Datasets (`astropy.nddata`)
+- Data Tables (`astropy.table`)
+- Time and Dates (`astropy.time`)
+- Time Series (`astropy.timeseries`)
+- Astronomical Coordinate Systems (`astropy.coordinates`)
+- World Coordinate System (`astropy.wcs`)
+- Models and Fitting (`astropy.modeling`)
+- Uncertainties and Distributions (`astropy.uncertainty`)
+
+#### Files, I/O, and Communication
+- Unified File Read/Write Interface
+- FITS File Handling (`astropy.io.fits`)
+- ASCII Tables (`astropy.io.ascii`)
+
+#### Computations and utilities
+- Cosmological Calculations (`astropy.cosmology`)
+- Convolution and Filtering (`astropy.convolution`)
+- IERS data access (`astropy.utils.iers`)
+- Data Visualization (`astropy.visualization`)
+- Astrostatistics Tools (`astropy.stats`)
+- Configuration System (`astropy.config`)
+
+**Infelizmente não temos o tempo necessário para cobrir cada um dos itens, nosso foco será em mostrar alguns pontos chaves e como iniciar**
+
+## 2) Astropy Units 
+<a id="pt2"></a>
+
+Um módulo muito util para controlar as unidades das variaveis!
+
+```{python}
+import astropy.units as u
+```
+
+```{python}
+teste = 10*u.km
+```
+
+```{python}
+print(teste)
+```
+
+```{python}
+type(teste)
+```
+
+```{python}
+# Podemos ver qual o valor da variavel
+teste.value
+```
+
+```{python}
+# Podemos ver qual a unidade da variavel
+teste.unit
+```
+
+```{python}
+# podemos modificar a unidade da variavel de forma rápida
+teste.to('m')
+```
+
+```{python}
+teste.to('au')
+```
+
+```{python}
+teste.to('parsec')
+```
+
+```{python}
+teste.to('nm')
+```
+
+```{python}
+# Ao criar uma nova variavel ela vai carregar a unidade
+teste_2 = 2*teste
+print(teste_2)
+```
+
+```{python}
+# O código automaticamente irá lidar com unidades relacionadas
+2000*u.m - 5*u.km
+```
+
+```{python}
+#| error: true
+#Porém dará erro com unidades sem relação
+20*u.s + 5*u.km
+```
+
+```{python}
+# Operações que fazem sentido irão funcionar
+teste = (20*u.km) / (10*u.hour)
+print(teste)
+```
+
+```{python}
+20*u.m * 40*u.m
+```
+
+```{python}
+# De maneira similar podemos mudar as unidades
+teste.to('m/s')
+```
+
+```{python}
+# Em especial, isso nos auxilia lidar com ângulos
+import numpy as np
+
+np.tan(30*u.deg)
+```
+
+```{python}
+# Não precisamos trabalhar com apenas 1 valor, podemos lidar com arrays de forma similar
+teste = np.linspace(0, 360, 36)*u.deg
+```
+
+```{python}
+teste.to('hourangle') #+ 10*u.arcsec 
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+print(teste)
+```
+
+```{python}
+type(teste)
+```
+
+```{python}
+teste.to('arcmin')
+```
+
+```{python}
+10*u.min + 30*u.s + 2*u.hour
+```
+
+```{python}
+u.dex?
+```
+
+## 3) Astropy Constants 
+<a id="pt3"></a>
+
+Um módulo muito util para controlar constantes necessárias!
+
+```{python}
+import astropy.constants as const
+```
+
+```{python}
+# aqui podemos encontrar uma coletânea de constantes interessantes para a Astronomia
+const.R_sun.uncertainty
+```
+
+```{python}
+# As Docstrings cotém os detalhes dessas constantes
+const.pc?
+```
+
+```{python}
+vel = const.c
+print(vel)
+```
+
+```{python}
+type(vel)
+```
+
+```{python}
+# Assim como as variaveis com unidades, podemos converter facilmente entre variaveis
+vel.to('Rjup/day')
+```
+
+```{python}
+const.R_jup?
+```
+
+## 4) Astropy Time 
+<a id="pt4"></a>
+
+Lidando com o tempo!
+
+```{python}
+from astropy.time import Time
+```
+
+```{python}
+t = Time.now()
+```
+
+```{python}
+print(t)
+```
+
+```{python}
+t.scale
+```
+
+```{python}
+# agora podemos acessar esse tempo de diferentes formas
+t.iso
+```
+
+```{python}
+#Data Juliana
+t.jd
+```
+
+```{python}
+# Data Juliana modificada
+t.mjd
+```
+
+```{python}
+# Besselian Epoch
+t.byear
+```
+
+```{python}
+# Além disso, o tempo tem uma escala associada
+t.scale
+```
+
+**Segue a lista de escalas de tempo**
+
+- tai -> International Atomic Time
+- tcb -> Barycentric Coordinate Time
+- tcg -> Geocentric Coordinate Time
+- tdb -> Barycentric Dynamical Time
+- tt -> Terrestrial Time
+- ut1 -> Universal Time
+- utc -> Coordinate Universal Time
+- local -> Local Time Scale
+
+```{python}
+# e podemos converter entre escalas de tempo
+t.tdb.iso
+```
+
+```{python}
+t.tt.iso
+```
+
+```{python}
+t.utc.iso
+```
+
+**Cada escala de tempo tem diferentes aplicações na astronomia**
+
+```{python}
+# Além disso, podemos combinar o Time com o units de maneira automática
+
+t1 = Time('2022-02-05 01:20') + 2.3*u.hour
+
+print(t1.iso)
+```
+
+```{python}
+type(t1)
+```
+
+```{python}
+# Uma coisa que estamos muito interessados é na passagem do tempo
+
+t2 = Time.now()
+```
+
+```{python}
+dt = t2 - t
+```
+
+```{python}
+t2
+```
+
+```{python}
+type(dt)
+```
+
+```{python}
+# diferença em dias
+dt.jd
+```
+
+```{python}
+# diferença em segundos
+dt.sec
+```
+
+```{python}
+dt.datetime
+```
+
+## 5) Astropy coordinates 
+<a id="pt5"></a>
+
+Lidando com o coordenadas!
+
+```{python}
+# Vamos começar com localização na Terra
+from astropy.coordinates import EarthLocation
+```
+
+```{python}
+bruno = EarthLocation(lon='-43 11 11', 
+                      lat='-22 53 54', 
+                      height=38*u.m)
+```
+
+```{python}
+type(bruno)
+```
+
+```{python}
+print(bruno)
+```
+
+```{python}
+bruno.geodetic
+```
+
+```{python}
+# Vamos começar com localização na Terra
+from astropy.coordinates import SkyCoord
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+SkyCoord?
+```
+
+```{python}
+star = SkyCoord(ra='01 12 43.2', 
+                dec='+12 23 44', 
+                distance=10*u.parsec, 
+                unit=[u.hourangle, u.deg])
+```
+
+```{python}
+type(star)
+```
+
+```{python}
+# pegar só parte dos valores (só RA)
+star.ra
+```
+
+```{python}
+# só Declinação
+star.dec
+```
+
+```{python}
+star.distance.to('au')
+```
+
+```{python}
+# Alterando a representação para cartesiana
+star.cartesian
+```
+
+```{python}
+# apenas um das coordenadas
+star.cartesian.x
+```
+
+```{python}
+# Agora podemos converter entre os sistemas de referência
+star.barycentrictrueecliptic
+```
+
+```{python}
+star.galactic
+```
+
+```{python}
+# Podemos analisar diferentes estrelas
+star_2 = SkyCoord(ra='01 12 43.2', 
+                  dec='-12 23 44', 
+                  distance=10*u.parsec, 
+                  unit=[u.hourangle, u.deg])
+```
+
+```{python}
+# Podemos computar a separação (no céu) das duas estrelas
+star.separation(star_2)
+```
+
+# Isso é tudo
+By BEM
+
+## 1) Abrindo arquivos ASCII
+<a id="pt1"></a>
+
+```{python}
+import astropy.io.ascii as asc
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+asc.read?
+```
+
+```{python}
+tb = asc.read('teste.txt')
+```
+
+```{python}
+tb
+```
+
+```{python}
+type(tb)
+```
+
+```{python}
+# Temos algo bem parecido com o pandas
+tb['obsid']
+```
+
+```{python}
+tb.write?
+```
+
+```{python}
+# Inclusive podemos transformar em um objeto do Pandas
+df = tb.to_pandas()
+```
+
+```{python}
+df
+```
+
+## 2) Abrindo imagens fits
+<a id="pt2"></a>
+
+```{python}
+import astropy.io.fits as fits
+```
+
+```{python}
+lista = fits.open('exemplo_1.fits')
+```
+
+```{python}
+print(lista)
+```
+
+```{python}
+type(lista)
+```
+
+```{python}
+type(lista[0])
+```
+
+```{python}
+imagem = lista[0]
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+imagem.header
+```
+
+## 3) Lidando com o Header 
+<a id="pt3"></a>
+
+```{python}
+im_header = imagem.header
+```
+
+```{python}
+type(im_header)
+```
+
+```{python}
+im_header
+```
+
+```{python}
+# Podemos buscar algum elemento especifico do Header
+
+im_header.get('DATE-OBS')
+```
+
+```{python}
+# Podemos adicionar elemenos ao Header
+im_header.append('ANALIST')
+```
+
+```{python}
+im_header
+```
+
+```{python}
+# Podemos editar elementos do Header
+im_header.set('ANALIST', '', comment='Editado em 27-05-2022')
+```
+
+```{python}
+im_header
+```
+
+```{python}
+im_header.get('ANALIST')
+```
+
+```{python}
+# Podemos eliminar elementos do Header
+im_header.remove('ANALIST')
+```
+
+```{python}
+im_header.get('ANALIST')
+```
+
+```{python}
+im_header
+```
+
+## 4) Lidando com os Dados 
+<a id="pt4"></a>
+
+```{python}
+dados = imagem.data.astype(float)
+```
+
+```{python}
+dados
+```
+
+```{python}
+import numpy as np
+import matplotlib.pylab as pl
+```
+
+```{python}
+# Podemos plotar a imagem
+pl.figure(figsize=[5,5])
+
+pl.imshow(dados, cmap='gray')
+
+pl.show()
+```
+
+```{python}
+dados.shape
+```
+
+```{python}
+# Podemos controlar as intensidades
+pl.figure(figsize=[5,5], facecolor='w')
+
+pl.imshow(dados, cmap='gray', vmin=dados.mean() - 50, vmax=dados.mean() +50)
+#pl.show()
+pl.savefig('imagem.png')
+```
+
+```{python}
+# Podemos controlar o colormap
+pl.figure(figsize=[5,5])
+
+#pl.imshow(dados, cmap='viridis', vmin=2300, vmax=2400)
+pl.imshow(dados, cmap='viridis_r', vmin=2300, vmax=2400)
+
+pl.show()
+
+### https://matplotlib.org/3.5.0/tutorials/colors/colormaps.html
+```
+
+```{python}
+# Como parte do matplotlib podemos combinar os diferentes plotes
+
+pl.figure(figsize=[10,10])
+
+pl.imshow(dados, cmap='viridis', vmin=2300, vmax=2400)
+
+pl.axhline(1024, color='k', ls='--')
+pl.axvline(1024, color='r', ls='--')
+
+#pl.imshow(im_data, cmap='viridis_r', vmin=2300, vmax=2400)
+
+pl.show()
+```
+
+# Operações básicas
+
+```{python}
+dados
+```
+
+```{python}
+dados + 2000
+```
+
+```{python}
+dados - 2000
+```
+
+```{python}
+dados * 2
+```
+
+```{python}
+dados / 2
+```
+
+# Lendo apenas um linha
+
+```{python}
+dados[1024]
+```
+
+```{python}
+pl.figure(figsize=[10,3])
+pl.plot(dados[790], 'k.-')
+```
+
+# Lendo apenas uma coluna
+
+```{python}
+dados[:,1230]
+```
+
+```{python}
+pl.figure(figsize=[15,3])
+pl.plot(dados[:,1230], 'k.-')
+```
+
+#### Relembrando slices
+
+```{python}
+a = np.arange(0,10,1)
+```
+
+```{python}
+a
+```
+
+```{python}
+a[0:4]
+```
+
+#### Slices em 2D
+
+```{python}
+b, c = np.meshgrid(np.arange(0,10,1), np.arange(100,110,1))
+
+d = 2*b + c
+```
+
+```{python}
+d
+```
+
+```{python}
+d[:,0]
+```
+
+```{python}
+d[0:2]
+```
+
+```{python}
+d[:,0:2]
+```
+
+```{python}
+d[0:2, 0:2]
+```
+
+```{python}
+d[d > 110]
+```
+
+# Aplicando a imagens
+
+```{python}
+# Podemos controlar as intensidades
+pl.figure(figsize=[5,5])
+
+pl.imshow(dados, cmap='gray', vmin=2300, vmax=2400)
+
+pl.show()
+```
+
+```{python}
+# Podemos controlar as intensidades
+pl.figure(figsize=[10,10])
+
+pl.imshow(dados[790-50:790+50], cmap='gray', vmin=2300, vmax=2400)
+
+pl.show()
+```
+
+```{python}
+# Podemos controlar as intensidades
+pl.figure(figsize=[10,10])
+
+pl.imshow(dados[:,1230-50:1230+50], cmap='gray', vmin=2300, vmax=2400)
+
+pl.show()
+```
+
+```{python}
+# Podemos controlar as intensidades
+pl.figure(figsize=[5,5])
+
+pl.imshow(dados[790-50:790+50, 1230-50:1230+50], cmap='gray', vmin=2300, vmax=2400)
+
+pl.axvline(50)
+pl.axhline(60, color='y')
+#pl.ylim(0, 100)
+pl.show()
+```
+
+```{python}
+new_dado = dados[790-50:790+50, 1230-50:1230+50]
+```
+
+```{python}
+dados[790-50:790+50, 1230-50:1230+50].shape
+```
+
+```{python}
+# Lendo só a linha
+pl.figure(figsize=[15,3])
+pl.plot(new_dado[50], 'b+-')
+```
+
+```{python}
+# Lendo só a coluna
+pl.figure(figsize=[15,3])
+pl.plot(new_dado[:,50], 'k.-')
+```
+
+```{python}
+fits.writeto('new_fig.fits', new_dado)
+```
+
+# Isso é tudo
+By BEM
+

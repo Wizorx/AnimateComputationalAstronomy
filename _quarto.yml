@@ -1,0 +1,65 @@
+project:
+  type: book
+
+book:
+  title: "Métodos Computacionais da Astronomia"
+  author: 
+    - "Bruno E. Morgado"
+    - "Luan M. Moraes (Org.)"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - part: "Python Básico"
+      chapters:
+        - começo/comeco.qmd
+        - POO.qmd
+    - part: "Pacotes Essenciais"
+      chapters:
+        - os&np.qmd
+        - matplotlib.qmd
+        - pandas/pandas.qmd
+        - astropy/astropy.qmd
+        - astroquery/astroquery.qmd
+    - part: "Ferramentas Computacionais"
+      chapters:
+        - latex.qmd
+        - git.qmd
+    - part: "Ferramentas Matemáticas"
+      chapters:
+        - raizes.qmd
+        - ajuste/ajuste.qmd
+        - montecarlo.qmd
+        - calculo/calculo.qmd
+        - edos.qmd
+ 
+    - references.qmd
+  appendices:
+    - logica.qmd
+
+language:
+  section-title-appendices: "Apêndices"
+
+bibliography: references.bib
+
+crossref:
+  chapters: true
+
+format:
+  live-html:
+    respect-user-color-scheme: true
+    lang: pt-BR
+    number-sections: true
+    number-depth: 3
+    theme: 
+      light: cosmo
+      dark: darkly
+    include-in-header: 
+      - text: |
+          <style>
+          .cell-output {
+            max-height: 500px;
+            overflow-y: auto;
+          }
+          </style>
+  pdf:
+    documentclass: scrreprt

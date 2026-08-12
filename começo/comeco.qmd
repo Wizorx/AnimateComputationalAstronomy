@@ -1,0 +1,688 @@
+---
+title: "Primeiros Passos"
+format:
+  live-html:
+    code-fold: false
+    code-line-numbers: true
+resources:
+  - input.dat
+jupyter: python3
+---
+
+```{python}
+#| include: false
+import IPython.core.page
+
+# Create a custom function to intercept the pager
+def print_page(strng, **kwargs):
+    # Sometimes the pager gets a dict of mime-types, sometimes just a string
+    if isinstance(strng, dict) and "text/plain" in strng:
+        print(strng["text/plain"])
+    else:
+        print(strng)
+
+# Override the default IPython pager globally
+IPython.core.page.page = print_page
+```
+
+## Tipos de variáveis
+
+Cada variável possui um tipo específico, temos:
+
+* Número inteiro (`int`)
+* Número real (`float`)
+* Texto (`str`, se fala *string*)
+* Valores lógicos (`bool`)
+
+Podemos descobrir o tipo de uma variável usando a função `type()`. Por exemplo:
+
+```{pyodide}
+#| autorun: true
+type(1000000)
+```
+
+```{pyodide}
+#| autorun: true
+type(2.0)
+```
+```{pyodide}
+#| autorun: true
+type('blablabla teste')
+```
+
+```{pyodide}
+#| autorun: true
+type(True), type(False)
+```
+
+Mas como o Python é uma linguagem *case-sensitive*, ou seja, que diferencia maiúsculas de minúsculas, é preciso tomar cuidado com variáveis booleanas:
+
+```{pyodide}
+#| autorun: true
+#| error: true
+# Atenção ao case
+type(true)
+```
+
+## Operações Básicas
+
+* `+` $\rightarrow$ Soma
+* `-` $\rightarrow$ Subtração
+* `*` $\rightarrow$ Produto
+* `/` $\rightarrow$ Divisão
+
+```{pyodide}
+#| autorun: true
+2+5
+```
+
+```{pyodide}
+#| autorun: true
+2+5.0
+```
+
+```{pyodide}
+#| autorun: true
+3/2
+```
+
+Em especial, podemos dar valores para variáveis usando o sinal `=`. Ele indica que a variável à esquerda *recebe* o valor à direita.
+
+```{pyodide}
+#| autorun: true
+variavel = 2
+```
+
+```{pyodide}
+#| autorun: true
+variavel
+```
+
+E podemos operar então com ela:
+
+```{pyodide}
+#| autorun: true
+variavel + 2 
+```
+
+Mas só dá pra usar variáveis que você já declarou, ou seja, as que já receberam algum valor.
+
+```{pyodide}
+#| autorun: true
+#| error: true
+banana - 3 
+```
+
+Operações com número são bastante intuitivas, porém podemos ir além. A soma de *strings* também pode ser feita e é uma concatenação:
+
+```{pyodide}
+#| autorun: true
+# Válido para strings
+'observatorio' + ' do ' + 'valongo'
+```
+
+Multiplicar também é possível, o que vai dar em uma *string* repetida várias vezes.
+
+```{pyodide}
+#| autorun: true
+'observatorio' + ' do ' * 5 + 'valongo'
+```
+
+Em compensação, substrair ou dividir *strings* não é possível:
+
+```{pyodide}
+#| autorun: true
+#| error: true
+'casa' - 'a'
+```
+
+```{pyodide}
+#| autorun: true
+#| error: true
+'casa' / 2
+```
+
+
+```{pyodide}
+#| autorun: true
+# Válido para Booleanos
+bool(True + False)
+```
+
+
+```{pyodide}
+#| autorun: true
+# 0 = False
+# 1 = True
+
+bool(1 * 0)
+```
+
+
+```{pyodide}
+#| autorun: true
+bool(True + True)
+```
+
+Aqui, a soma e o produto são operações lógicas, onde:
+
+* `+` significa *ou*
+* `*` significa *e*
+
+Se você não sabe ou não lembra como os operadores lógicos funcionam, basta conferir o @sec-appendix-a.
+
+```{pyodide}
+#| autorun: true
+teste_1 = True
+teste_2 = False
+
+# Teste_1 E teste_2 são verdadeiros?
+bool(teste_1 * teste_2)
+```
+
+## Condições
+
+* `if` - Se for verdade
+* `elif` - E se for verdade
+* `if not` - Se não for verdade
+* `else` - Caso contrário
+
+```{pyodide}
+#| autorun: true
+if True:
+    print('oi')
+```
+
+```{pyodide}
+#| autorun: true
+if False:
+    print('oi')
+```
+
+```{pyodide}
+#| autorun: true
+if True:
+    print('oi')
+else:
+    print('não deu')
+```
+
+```{pyodide}
+#| autorun: true
+if not True:
+    print('oi')
+else:
+    print('não deu')
+```
+
+```{pyodide}
+#| autorun: true
+if  True * False:
+    print('oi')
+
+elif True:
+    print('de novo')
+
+else:
+    print('não deu')
+```
+
+O que resulta em um booleano? Uma pergunta!
+
+- `==` $\rightarrow$ É igual a?
+- `!=` $\rightarrow$ É diferente de?
+- `>` $\rightarrow$ É maior que?
+- `<` $\rightarrow$ É menor que?
+- `>=` $\rightarrow$ É maior ou igual a?
+- `<=` $\rightarrow$ É menor ou igual a?
+
+
+```{pyodide}
+#| autorun: true
+2 == 2
+```
+
+```{pyodide}
+#| autorun: true
+2 > 2
+```
+
+
+```{pyodide}
+#| autorun: true
+2 >= 3
+```
+
+```{pyodide}
+#| autorun: true
+3 != 2
+```
+
+```{pyodide}
+#| autorun: true
+valor = 15
+
+if valor > 5:
+    print('Valor é maior que 5')
+elif valor == 5:
+    print('Valor é igual a cinco')
+else:
+    print('Valor é menor que cinco')
+```
+
+Alterem a variável `valor`.
+
+```{pyodide}
+#| autorun: true
+int(1.9999999)
+```
+## Conjuntos de variáveis
+
+* Tupla
+    - Slice
+* Dicionário
+
+```{pyodide}
+#| autorun: true
+conjunto = [1,2,3,4,5]
+```
+
+```{pyodide}
+#| autorun: true
+type(conjunto)
+```
+
+```{pyodide}
+#| autorun: true
+# Quantos elementos tem esse conjunto de variaveis?
+len(conjunto)
+```
+
+```{pyodide}
+#| autorun: true
+# Como criar um conjunto ordenado?
+conjunto_2 = range(10)
+
+print(conjunto_2)
+```
+
+```{pyodide}
+#| autorun: true
+len(conjunto_2)
+```
+
+
+```{pyodide}
+#| autorun: true
+import numpy as np
+```
+
+```{python}
+#| error: true
+# IMPORTANTE: As funções têm Docstring!! (Ou deveriam ter)
+int?
+```
+
+
+```{pyodide}
+#| autorun: true
+# como eu seleciono um elemento desse conjunto?
+# IMPORTANTE, Python sempre começa no zero!
+
+conjunto_3 = ['casa', 'valongo', 'trabalho']
+
+print(conjunto_3[0])
+print(conjunto_3[1])
+print(conjunto_3[2])
+```
+
+
+```{pyodide}
+#| autorun: true
+conjunto
+```
+
+
+```{pyodide}
+#| autorun: true
+conjunto_3.append('extra')
+```
+
+
+```{pyodide}
+#| autorun: true
+conjunto_3.sort()
+```
+
+```{pyodide}
+#| autorun: true
+conjunto_3
+```
+
+```{pyodide}
+#| autorun: true
+conjunto_3.remove('trabalho')
+```
+
+
+```{pyodide}
+#| autorun: true
+conjunto_3
+```
+
+```{pyodide}
+#| autorun: true
+retorno = conjunto_3.pop(2)
+```
+
+```{pyodide}
+#| autorun: true
+retorno
+```
+
+```{pyodide}
+#| autorun: true
+print(conjunto_3)
+```
+
+Para pegar vários elementos pegamos um `slice`
+
+```{pyodide}
+#| autorun: true
+a = [0,1,2,3,4,5,6,7,8,9]
+```
+
+```{pyodide}
+#| autorun: true
+a
+```
+
+Slice funciona assim:
+
+[`inicio` : `final` : `passo`]
+
+```{pyodide}
+#| autorun: true
+# Todos
+print(a[:])
+```
+
+```{pyodide}
+#| autorun: true
+# até o quinto elemento
+print(a[0:5])
+#| autorun: true
+```
+
+```{pyodide}
+#| autorun: true
+# a partir do quinto elemento
+print(a[5:])
+```
+
+```{pyodide}
+#| autorun: true
+a[::3]
+```
+
+```{pyodide}
+#| autorun: true
+# entre o 5 e o 7 elementos
+print(a[5:7])
+```
+Uma `tupla` é apenas um conjunto de informações, porém a informação também pode ser organizada na forma de um `dicionário`.
+
+
+```{pyodide}
+#| autorun: true
+dic = {'chave' : 'valor'}
+```
+
+```{pyodide}
+#| autorun: true
+print(dic)
+```
+
+Em especial, em um `dicionário` podemos organizar informações de diferentes tipos.
+
+
+```{pyodide}
+#| autorun: true
+prof = {'Nome' : 'Bruno',
+        'Aniversario' : '03/05',
+        'Tem gatos?' : True,
+        'Gatos' : [1, 2, 3, 4, 5]}
+```
+
+```{pyodide}
+#| autorun: true
+print(prof)
+```
+
+```{pyodide}
+#| autorun: true
+prof['Nome']
+```
+
+## Iterações
+
+* `for` ... `in` ...
+* `while`
+* `enumerate`
+
+```{pyodide}
+#| autorun: true
+conjunto_3
+```
+
+```{pyodide}
+#| autorun: true
+n = 0
+for a_1 in conjunto_3:
+    print(a_1)
+    n = n + 1
+```
+
+```{pyodide}
+#| autorun: true
+n
+```
+
+```{pyodide}
+#| autorun: true
+for a_2 in conjunto_2:
+    print(a_2 + 50)
+```
+
+```{pyodide}
+#| autorun: true
+banana = [10, 27]
+```
+
+
+```{pyodide}
+#| autorun: true
+for banana_1 in [10, 27, 32, 64, 200]:
+    print(banana_1)
+```
+
+
+```{pyodide}
+#| autorun: true
+banana_1
+```
+
+```{pyodide}
+#| autorun: true
+conjunto_4 = []
+soma = 0
+for a_3 in conjunto_2:
+    conjunto_4.append(a_3 + 50)
+    soma = soma + a_3
+```
+
+```{pyodide}
+#| autorun: true
+conjunto_2
+```
+
+```{pyodide}
+#| autorun: true
+conjunto_4
+```
+
+```{pyodide}
+#| autorun: true
+soma
+```
+
+`for` utiliza os valores de um determinado conjunto, por outro lado, o `while` irá funcionar até uma condição ser satisfeita
+
+
+```{pyodide}
+#| autorun: true
+a_4 = 0
+while a_4 < 10:
+    a_4 = a_4 + 1
+    print(a_4)
+```
+
+```{pyodide}
+#| autorun: true
+a_5 = 0
+while a_5 < 10:
+    print(a_5)
+    a_5 = a_5 + 1
+print(a_5)
+```
+
+**<u>ATENÇÃO:</u>**  Aqui existe um grande perigo de entrar em um loop infinito!!
+
+
+```{pyodide} 
+#| autorun: false
+#| timelimit: 1
+#| runbutton: true
+a_6 = 0
+while a_6 < 50:
+    a_6 = a_6 - 1
+print(a_6)
+```
+
+**<u>Extra:</u>** Controle de Ansiedade
+
+
+```{pyodide} 
+#| autorun: false
+#| runbutton: true
+#| timelimit: 1
+from tqdm import tqdm
+for a_7 in tqdm(range(100000000), 'To testando'):
+    a_7 + 50
+``` 
+
+Uma outra forma de fazer loop é com o `enumerate`:
+
+```{pyodide}
+#| autorun: true
+for i, a_8 in enumerate(range(100, 0, -1)):
+    print(i, a_8)
+```
+    
+## Ler e Salvar arquivos
+
+```{python}
+pwd
+```
+
+```{pyodide}
+#| autorun: true
+#| edit: false
+valor_1 = []
+f = open('input.dat', 'r')
+lines = f.readlines()  # r = read
+```
+
+
+```{pyodide}
+#| autorun: true
+lines
+```
+
+```{python}
+open?
+```
+
+```{pyodide}
+#| autorun: true
+valor_2 = []
+f_1 = open('input.dat', 'r')
+lines_1 = f_1.readlines()  # r = read
+for line in lines_1:
+    valor_2.append(float(line))
+f_1.close()
+```
+
+
+```{pyodide}
+#| autorun: true
+valor_2
+```
+
+
+```{pyodide}
+#| autorun: true
+valor_2.sort()
+```
+
+```{pyodide}
+#| autorun: true
+valor_2
+```
+
+Exercício $\rightarrow$ filtre e pegue apenas os valores positivos! e crie uma nova tupla.
+
+
+```{pyodide}
+novos_valores = []
+
+#...
+#...
+#...
+#...
+#...
+```
+
+Agora como salvar esses novos valores?
+
+
+```{pyodide}
+#| autorun: true
+f_2 = open('output.txt', 'w')  # w = write
+for v in valor_2:
+    f_2.write(str(v) + '\n')
+f_2.close()
+```
+
+## Ferramentas úteis para *strings*
+
+```{pyodide}
+#| autorun: true
+# Como fazer o print do valor junto com uma string?
+print('O valor é igual a {:+8.2f}'.format(valor_2[20]))
+```
+
+```{pyodide}
+#| autorun: true
+# Pular a linha
+print('casa \n do bruno')
+```
+
+```{pyodide}
+#| autorun: true
+# Adicionar tabulação
+print('teste 1 \t = 2')
+print('teste 20 \t = 2')
+print('teste 330 \t = 2')
+print('teste 1000 \t = 2')
+```

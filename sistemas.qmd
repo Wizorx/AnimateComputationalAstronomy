@@ -1,0 +1,159 @@
+---
+title: Sistemas de Equações Lineares
+jupyter: python3
+---
+
+
+#### by BEM, Last update: 11/07/2023
+
+
+```{python}
+import numpy as np
+```
+
+Vamos solucionar a Matrix Triangular superior
+
+```{python}
+A = np.array([[3,1,0],[0,2,-1],[0,0,3]])
+b = np.array([4,2,0])
+```
+
+```{python}
+A
+```
+
+```{python}
+b
+```
+
+```{python}
+x = np.zeros(len(b))
+print(x)
+```
+
+```{python}
+x = np.zeros(len(bb))
+
+for i in range(len(x)-1,-1,-1):
+    print(i)
+    x[i] = (b[i] - np.sum(A[i]*x))/A[i,i]
+
+print(x)
+```
+
+```{python}
+# Resolvendo outro sistema
+AA = np.array([[7,1,0],[0,15,-1],[0,0,10]])
+bb = np.array([4,2,5])
+
+x = np.zeros(len(bb))
+
+for i in range(len(x)-1,-1,-1):
+    print(i)
+    x[i] = (bb[i] - np.sum(AA[i]*x))/AA[i,i]
+
+print(x)
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+from scipy.linalg import solve
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+solve?
+```
+
+```{python}
+solve(A,b)
+```
+
+```{python}
+solve(AA,bb)
+```
+
+# Método da Eliminação de Gauss
+
+```{python}
+A = np.array([[3.,2.,4.],[1.,1.,2.],[4.,3.,-2.]])
+b = np.array([1.,2.,3.])
+```
+
+```{python}
+A
+```
+
+```{python}
+b
+```
+
+```{python}
+# Primeiro passo
+b[1] = b[1] - b[0]*A[1, 0]/A[0, 0]
+b[2] = b[2] - b[0]*A[2, 0]/A[0, 0]
+
+A[1] = A[1] - A[0]*A[1, 0]/A[0, 0] 
+A[2] = A[2] - A[0]*A[2, 0]/A[0, 0]
+```
+
+```{python}
+# fim do primeiro passo
+A
+```
+
+```{python}
+b
+```
+
+```{python}
+# Segundo passo
+b[2] = b[2] - b[1]*A[2, 1]/A[1, 1]
+
+A[2] = A[2] - A[1]*A[2, 1]/A[1, 1]
+```
+
+```{python}
+# Agora temos uma matriz triangulo superior
+A
+```
+
+```{python}
+b
+```
+
+### Como fazer isso de forma eficiente?
+
+```{python}
+A = np.array([[3.,2.,4.],[1.,1.,2.],[4.,3.,-2.]])
+b = np.array([1.,2.,3.])
+```
+
+```{python}
+for i in range(0, len(b) - 1): 
+    for ii in range(i+1, len(b)): 
+        b[ii] = b[ii] - b[i]*A[ii, i]/A[i, i]
+        A[ii] = A[ii] - A[i]*A[ii, i]/A[i, i] 
+
+print(A)
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+solve(A,b)
+```
+
+```{python}
+A_original = np.array([[3.,2.,4.],[1.,1.,2.],[4.,3.,-2.]])
+b_original = np.array([1.,2.,3.])
+
+solve(A_original, b_original)
+```
+
+# Isso é tudo
+By BEM
+

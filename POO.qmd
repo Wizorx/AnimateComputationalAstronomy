@@ -1,0 +1,413 @@
+---
+title: Python Orientado a Objetos
+jupyter: python3
+---
+
+## Funções 
+
+Quando precisamos repetir muitas vezes um pedaço de código, faz mais sentido transformalo em uma função:
+- def -> Definir uma função
+- return -> O que a função retorna
+
+```{python}
+def soma(a, b):
+    return a + b
+```
+
+```{python}
+soma(2,3)
+```
+
+```{python}
+# as variaveis dentro da função ficam dentro da função, a menos que você retorne elas
+
+def soma(a, b):
+    c = 10
+    return a + b + c
+```
+
+```{python}
+soma(2,3)
+```
+
+```{python}
+#| error: true
+print(c)
+```
+
+O que acontece dentro da função fica dentro da função...
+
+```{python}
+# Podemos dar valores predefinidos as variaveis
+def soma(a, b=5):
+    return a + b
+```
+
+```{python}
+soma(5)
+```
+
+```{python}
+soma(a=5)
+```
+
+```{python}
+soma(5, 2)
+```
+
+```{python}
+# não necessariamente é necessário retornar algo
+
+def soma_1(a, b):
+    print(a + b)
+    return
+
+def soma_2(a, b):
+    return a + b
+```
+
+```{python}
+# Qual a diferença?
+
+soma_1(2, 5)
+soma_2(2, 5)
+```
+
+```{python}
+valor = soma_1(2, 5)
+```
+
+```{python}
+print(valor)
+```
+
+```{python}
+valor = soma_2(2, 5)
+```
+
+```{python}
+print(valor)
+```
+
+Além deles, também temos:
+
+- args -> Argumentos das funções 
+- kwargs -> Argumentos com Keyword
+
+```{python}
+#Vamos supor que queremos fazer a soma, mas o usuário pode escolher quantos valores ele quer colocar.
+
+def soma(a,b):
+    return a+b
+
+```
+
+```{python}
+#| error: true
+soma(2,3,5)
+```
+
+```{python}
+# Solução, usar os argumentos
+
+def soma(*args):
+    soma = 0
+    for valor in args:
+        soma += valor
+    return soma
+```
+
+```{python}
+soma(2,3)
+```
+
+```{python}
+soma(2,3,5,6,7)
+```
+
+Em resumo, você pode ter quantos argumentos você quiser, mas sem ter q se preocupar em definir cada um deles.
+
+Podemos inclusive colocar algumas informações extras
+
+```{python}
+def soma(*args, verbose=False):
+    soma = 0
+    for valor in args:
+        if verbose:
+            print('somando {:+.1f}'.format(valor))
+        soma += valor
+    return soma
+```
+
+```{python}
+valor = soma(2,3,5,6,7)
+print(valor)
+```
+
+```{python}
+valor = soma(2,3,5,6,7, verbose=True)
+print(valor)
+```
+
+Mas Bruno, eu preciso definir cada uma das variaveis nomeadas no inicio?
+
+```{python}
+# Aqui você pode usar os kwargs:
+
+def soma(*args, **kwargs):
+    soma = 0
+    print(kwargs)
+    for valor in args:
+        soma += valor
+    return soma
+```
+
+```{python}
+soma(2,3,5,4, teste='sim', valor='quero', verbose=True)
+```
+
+O kwargs é um dicinário! Então como trabalhar com ele?
+
+```{python}
+def soma(*args, **kwargs):
+    soma = 0
+    if 'verbose' in kwargs:
+        verbose = kwargs['verbose']
+    for valor in args:
+        if verbose:
+            print('somando {:+.1f}'.format(valor))
+        soma += valor
+    return soma
+```
+
+```{python}
+soma(2,3,4,5, verbose=True)
+```
+
+```{python}
+soma(2,3,4,5, verbose=True, extra='teste')
+```
+
+O que aconteceu com esse extra? Nada!
+
+**<u>ATENÇÃO:</u>**  Na hora de fazer uma função é muito importante definir sua Docstring
+
+```{python}
+def soma(valor_inicial, *args, **kwargs):
+    """Soma os valores adicionados.
+
+    Parâmetros
+    ----------
+    valor_inicial : `int`, `float`,
+        Número inicial que será somado.
+
+    args : `int`, `float`,
+        Números que serão somados a variavel valor.
+
+    Kwargs
+    ----------
+    verbose : `bool`
+        Se `True`, irá mostrar informações durante as operações.
+
+    Returns
+    -------
+    soma : `int`, `float`
+        Soma final dos parâmetros de entrada
+    """
+    soma = valor_inicial
+    if 'verbose' in kwargs:
+        verbose = kwargs['verbose']
+    for valor in args:
+        if verbose:
+            print('somando {:+.1f}'.format(valor))
+        soma += valor
+    return soma
+```
+
+```{python}
+# Agora eu consigo ler a docstring
+soma?
+```
+
+```{python}
+# também consigo ver o código interno
+soma??
+```
+
+## Classes 
+
+Quando apenas algumas funções não são o suficiente, criamos uma Classe de objetos:
+
+```{python}
+class Gatos:
+    """ 
+    Dockstring blablabla
+    """
+
+    def __init__(self, *, numero=0):
+        self.contagem = numero
+        self.dono = 'Você'
+
+    @property
+    def quantos(self):
+        return self.contagem
+
+    def adicionar(self, numero):
+        """
+        adicionar número de gatos
+        """
+        print('Você tem mais gatos!')
+        self.contagem += numero
+        return numero
+
+    def mudar_dono(self, name):
+        """
+        adiciona o nome do dono
+        """
+        self.dono = name
+        return
+```
+
+```{python}
+gt = Gatos()
+```
+
+```{python}
+type(gt)
+```
+
+```{python}
+gt.dono
+```
+
+```{python}
+gt.contagem
+```
+
+```{python}
+gt.adicionar(2)
+```
+
+```{python}
+gt.contagem
+```
+
+```{python}
+gt.mudar_dono('Bruno')
+```
+
+```{python}
+gt.dono
+```
+
+```{python}
+class Gatos:
+    """ 
+    Dockstring blablabla
+    """
+
+    def __init__(self, *, numero=0):
+        self.contagem = numero
+        self.dono = 'Você'
+
+    @property
+    def quantos(self):
+        return self.contagem
+
+    def adicionar(self, numero):
+        """
+        adicionar número de gatos
+        """
+        print('Você tem mais gatos!')
+        self.contagem += numero
+        return numero
+
+    def mudar_dono(self, name):
+        """
+        adiciona o nome do dono
+        """
+        self.dono = name
+        return
+
+    def __repr__(self):
+        """
+        Representação na forma de String
+        """
+        return '{} tem {} gatos'.format(self.dono, self.contagem)
+
+    def __str__(self):
+        """
+        Representação na forma de string quando o print(obj) é usado
+        """
+        return 'você está fazendo o print, e {} tem {} gatos'.format(self.dono, self.contagem)
+```
+
+```{python}
+gt = Gatos()
+```
+
+```{python}
+gt.dono
+```
+
+```{python}
+print(gt)
+```
+
+```{python}
+gt
+```
+
+## Pacotes
+
+Existe uma grande gama de pacotes python, como usar?
+
+```{python}
+# import numpy as np # -> Importando o pacote inteiro e atribuindo um alias a ele
+```
+
+```{python}
+import numpy # -> Importando um pacote inteiro
+```
+
+```{python}
+numpy.array?
+```
+
+```{python}
+import numpy as np # -> Importando o pacote inteiro e atribuindo um alias a ele
+
+np.array?
+```
+
+```{python}
+numpy.array == np.array
+```
+
+Não precisamos importar o pacote inteiro.
+
+```{python}
+from numpy import random as rd
+```
+
+```{python}
+rd.randint(low=0, high=10) # -> Te devolve um número randomico entre o `low` e o `high` (Maiores detalhes na próxima aula)
+```
+
+```{python}
+# Podemos também pegar uma classe dentro de um módulo dentro de um pacote!
+from astropy.time import Time
+```
+
+```{python}
+Time?
+```
+
+**Vamos criar o nosso próprio pacote!**
+
+```{python}
+#### Lembrete, instalar o nov pacote, indo até o diretório onde encontramos o setup.py, e usar:
+#### > pip install .
+
+#from bruno_projeto import * #Importando todas as funções/classes do pacote
+```

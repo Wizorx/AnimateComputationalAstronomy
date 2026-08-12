@@ -1,0 +1,23 @@
+---
+title: 'Pandas'
+format:
+  live-html:
+    code-fold: false
+    code-line-numbers: true
+    css: style.css
+pyodide:
+  packages:
+      - numpy
+      - matplotlib
+jupyter: python3
+---
+
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as pl
+import numpy as np
+```
+
+# Iniciando o uso do Pandas
+

@@ -1,0 +1,390 @@
+---
+title: 'Pandas'
+pyodide:
+  packages:
+      - numpy
+      - matplotlib
+      - pandas
+      - Jinja2
+resources:
+       - nomad.csv
+       - exemplo_1.fits
+css: style.css
+---
+
+
+```{python}
+#| include: false
+import IPython.core.page
+import matplotlib.pyplot as pl
+import pandas as pd
+import numpy as np
+
+# Create a custom function to intercept the pager
+def print_page(strng, **kwargs):
+    # Sometimes the pager gets a dict of mime-types, sometimes just a string
+    if isinstance(strng, dict) and "text/plain" in strng:
+        print(strng["text/plain"])
+    else:
+        print(strng)
+
+# Override the default IPython pager globally
+IPython.core.page.page = print_page
+```
+
+```{pyodide}
+#| autorun: true
+import pandas as pd
+import matplotlib.pyplot as pl
+import numpy as np
+```
+
+## Iniciando o uso do Pandas
+
+Vamos começar devagar, para que serve o Pandas?
+
+```{pyodide}
+#| autorun: true
+dic = {'anos':np.arange(2019, 2024), 
+       'alunos':np.array([5,7,8,9,3]),
+       'aprovados':np.array([2,5,8,7,2])}
+```
+
+```{pyodide}
+#| autorun: true
+df = pd.DataFrame(dic)
+```
+
+```{pyodide}
+#| autorun: true
+df
+```
+
+```{pyodide}
+#| autorun: true
+df.iloc[2]
+```
+
+```{pyodide}
+#| autorun: true
+type(df)
+```
+
+```{pyodide}
+#| autorun: true
+df['anos']
+```
+
+```{pyodide}
+#| autorun: true
+type(df['alunos'])
+```
+
+```{pyodide}
+#| autorun: true
+df.alunos
+```
+
+```{pyodide}
+#| autorun: true
+df['reprovados'] = df['alunos'] - df['aprovados']
+```
+
+```{pyodide}
+#| autorun: true
+df
+```
+
+```{pyodide}
+#| autorun: true
+df['blabla'] = df['anos']*10
+```
+
+```{pyodide}
+#| autorun: true
+df.blabla
+```
+
+## Lendo um arquivo de entrada
+
+```{python}
+pd.read_csv?
+```
+
+## Vamos começar lendo um catálogo
+
+```{pyodide}
+#| autorun: true
+df = pd.read_csv('nomad.csv', sep=';', comment='#', 
+                 na_values='      ')
+```
+
+```{pyodide}
+#| autorun: true
+type(df)
+```
+
+```{pyodide}
+#| autorun: true
+#| tags: []
+df
+```
+
+```{pyodide}
+#| autorun: true
+df.dtypes
+```
+
+```{pyodide}
+#| autorun: true
+df['RAJ2000']
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(df.RAJ2000, df.DEJ2000, 'r^')
+```
+
+```{pyodide}
+#| autorun: true
+df['Bmag']
+```
+
+```{pyodide}
+#| autorun: true
+df
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos aplicar filtros
+df[df['Bmag'] < 17]
+```
+
+```{pyodide}
+#| autorun: true
+df['Bmag'][~np.isnan(df['Bmag'])]
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(df.Bmag - df.Vmag, df.Vmag - df.Rmag, 'k.')
+pl.axis('square')
+pl.ylabel('V - R',fontsize=12)
+pl.xlabel('B - V',fontsize=12)
+pl.xlim(-12, +12)
+pl.ylim(-12, +12)
+
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+#Podemos criar novas colunas de maneira imediata
+
+print(df.shape)
+df['B-V'] = df.Bmag - df.Vmag
+
+print(df.shape)
+```
+
+```{pyodide}
+#| autorun: true
+df
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos filtrar todas as colunas também de maneira simples
+df2 = df[df.Vmag < 15]
+```
+
+```{pyodide}
+#| autorun: true
+df2
+```
+
+## Vamos salvar esse novo "catálogo"
+
+```{pyodide}
+#| autorun: true
+df2.to_latex('output.tex')
+```
+
+```{python}
+# Podemos salvar o nosso arquivo de saída em diferentes formatos
+
+#df.to_ #tab
+df.to_csv?
+```
+
+```{pyodide}
+#| autorun: true
+df2.to_csv('output.csv')
+```
+
+## Agora vamos às análises
+
+- Análise geral e Filtros e Sort
+- Relações e Correlações entre os elementos
+- Agrupamentos
+
+```{pyodide}
+#| autorun: true
+# Informações gerais sobre o seu catálogo / data frame
+
+df5 = df.describe()
+```
+
+```{pyodide}
+#| autorun: true
+
+np.mean(df['pmRA'])
+```
+
+```{pyodide}
+#| autorun: true
+# Filtrando os valores
+df[df.Vmag < 12]
+```
+
+```{pyodide}
+#| autorun: true
+df.sort_values(by='Vmag')
+```
+
+```{pyodide}
+#| autorun: true
+df.sort_values(by='Vmag',ascending=False)
+```
+
+```{pyodide}
+#| autorun: true
+# Qual a variancia e covariancia entre os parâmetros ?
+
+df.cov(numeric_only=True)
+```
+
+```{pyodide}
+#| autorun: true
+# Quais as correlações entre os parâmetros ?
+
+df.corr(numeric_only=True)
+```
+
+```{pyodide}
+#| autorun: true
+df.hist(color="k", alpha=1.0, bins=10, figsize=[10,10])
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+fig, ax = pl.subplots()
+df.plot.scatter(x="Bmag", y="Kmag", ax=ax)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+fig, ax = pl.subplots()
+df.plot.scatter(x="Bmag", 
+                y="Kmag", 
+                c='Vmag',
+                s=50, 
+                cmap='terrain',
+                ax=ax)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# listando as keys das colunas
+df.keys()
+```
+
+```{pyodide}
+#| autorun: true
+df10 = df[df['Bmag'] < 15]
+```
+
+```{pyodide}
+#| autorun: true
+df10
+```
+
+```{python}
+df.drop?
+```
+
+```{pyodide}
+#| autorun: true
+# Vamos criar um novo DataFrame com menos colunas
+
+df2 = df.drop(columns=['_RAJ2000', '_DEJ2000', 
+                       'NOMAD1', 'YM', 'Bmag', 
+                       'r_Bmag', 'Vmag', 'r_Vmag',
+                       'Rmag', 'r_Rmag', 'Jmag', 
+                       'Hmag', 'Kmag', 'R', 
+                       'B-V', 'r', 'e_pmRA', 'e_pmDE'])
+```
+
+```{pyodide}
+#| autorun: true
+df2 = df[['RAJ2000', 'DEJ2000', 'pmRA', 'pmDE']]
+```
+
+```{pyodide}
+#| autorun: true
+df2
+```
+
+```{pyodide}
+#| autorun: true
+from pandas.plotting import scatter_matrix
+```
+
+```{pyodide}
+#| autorun: true
+scatter_matrix(df2,  diagonal='hist',alpha=0.5, figsize=(5, 5))
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+fig, ax = pl.subplots()
+df.plot.scatter(x="RAJ2000", y="DEJ2000", c="Vmag", s=50, figsize=[5,5], ax=ax)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+df['r']
+```
+
+## Olhando na descrição do catálogo!
+
+Note (3)  : Sources of the values are defined as follows:
+- B = 	USNO-B1.0 (Monet et al., Cat. I/284)
+- C = 	UCAC2 (Zacharias et al., Cat. I/289)
+- M = 	2MASS catalog of point sources (Cutri et al., Cat. II/246)
+- Y = 	YB6 Catalog (USNO, unpublished)
+- T = 	Tycho-2 Catalog (Hog et al., 2000, Cat. I/259)
+- H = 	Hipparcos catalog (Table I/239/hip_main)
+- o = 	Palomar-I blue (O) plate (for Bmag)
+- e = 	Palomar-I red (E) plate (for Rmag) 
+
+```{pyodide}
+#| autorun: true
+df3 = df[['r','Bmag', 'Vmag', 'Rmag', 'Jmag', 'Hmag', 'Kmag']]
+```
+
+```{pyodide}
+#| autorun: true
+df3
+```
+
+```{pyodide}
+#| autorun: true
+df3.groupby(['r']).agg(['count','min','mean']) #'median', 'sum'
+```

@@ -1,0 +1,307 @@
+---
+title: Ajuste de Funções
+jupyter: python3
+---
+
+
+#### by BEM, Last update: 10/07/2023
+
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as pl
+```
+
+# Caso particular da Reta
+
+```{python}
+# Vamos Ler o arquivo de entrada
+x, y = np.loadtxt('exercicio_1.dat', unpack=True)
+```
+
+```{python}
+# Visualizando nossos dados
+
+pl.plot(x, y, 'k.-')
+pl.show()
+```
+
+Podemos computar os coeficientes utilizando:
+
+$ \frac{\partial S}{\partial a} = \sum_{i = 1}^{n}2.x_i.(ax_i + b - y_i) = 0$
+
+$ \frac{\partial S}{\partial b} = \sum_{i = 1}^{n}2.(ax_i + b - y_i) = 0$
+
+$\therefore$
+
+$a = \frac{\sum_{i = 1}^{n} x_i (y_i - \bar{y})}{\sum_{i = 1}^{n} x_i (x_i - \bar{x})}$
+
+$b = \bar{y} - a\bar{x}$
+
+onde
+
+$\bar{x} = \frac{1}{N}\sum_{i = 1}^{n} x_i$
+
+$\bar{y} = \frac{1}{N}\sum_{i = 1}^{n} y_i$
+
+```{python}
+a = np.sum(x*(y - y.mean())) / np.sum(x*(x - x.mean()))
+print('Coeficiente Angular: ', a)
+```
+
+```{python}
+b = y.mean() - a*x.mean()
+print('Coeficiente linear: ', b)
+```
+
+```{python}
+# Visualizando nosso resultado
+
+pl.plot(x, y, 'k.-')
+pl.plot(x, a*x + b, 'r-')
+pl.show()
+```
+
+Esse foi um exemplo de um ajuste por mínimos quadrados para o caso de um ajuste simples que pode ser resolvido algebricamente. Mas como fazer de forma numérica?
+
+### Vamos fazer um Monte Carlo
+
+```{python}
+# Primeiro, definir o nosso problema
+
+def reta(x, a, b):
+    return a*x + b
+```
+
+```{python}
+# Definimos alguns chutes iniciais 
+
+pl.plot(x, y, 'k.-')
+pl.plot(x, reta(x, 0.5, 10), 'r-')
+pl.show()
+```
+
+```{python}
+# Vamos criar valores randômicos para testar
+param_a = np.random.uniform(0, 1, 100000)
+param_b = np.random.uniform(0, 30, 100000)
+```
+
+```{python}
+# Como estamos preenchendo o espaço de parâmetros?
+
+pl.plot(param_a, param_b, 'k.')
+pl.xlabel('a', fontsize=15)
+pl.ylabel('b', fontsize=15)
+pl.show()
+
+# Cada ponto preto é uma simulação que vamos fazer de forma iterativa
+```
+
+```{python}
+pl.plot(param_a, param_b, 'k.')
+pl.plot(param_a[0], param_b[0], 'r.')
+pl.xlabel('a', fontsize=15)
+pl.ylabel('b', fontsize=15)
+pl.show()
+
+print(param_a[0], param_b[0])
+```
+
+Computando um modelo e calculando o valor de: 
+
+$S = \sum_{i = 1}^{N} (y_i - f(x_i))^2$
+
+```{python}
+y_model = reta(x, a=param_a[0], b=param_b[0])
+
+S = np.sum((y - y_model)**2)
+print('Soma dos quadrados dos Resíduos: ', S)
+
+# Quanto maior o S, pior é o ajuste, vamos calcular S para todos os valores simulados
+```
+
+```{python}
+S = np.array([])
+
+for i in range(len(param_a)):
+    y_model = reta(x, a=param_a[i], b=param_b[i])
+    S = np.append(S, np.sum((y - y_model)**2))
+```
+
+```{python}
+print('Valor mínimo da soma dos quadrados dos resíduos: ', S.min())
+print('Melhor valor de a: ', param_a[S.argmin()])
+print('Melhor valor de b: ', param_b[S.argmin()])
+
+```
+
+```{python}
+# Definimos alguns chutes iniciais 
+
+pl.plot(x, y, 'k.-')
+pl.plot(x, reta(x, param_a[S.argmin()], param_b[S.argmin()]), 'r-')
+pl.show()
+```
+
+```{python}
+pl.plot(param_a, S, 'k.')
+pl.axvline(param_a[S.argmin()], color='red', ls='--')
+pl.ylim(0, 1000)
+```
+
+```{python}
+pl.plot(param_b, S, 'k.')
+pl.axvline(param_b[S.argmin()], color='red', ls='--')
+pl.ylim(0, 1000)
+```
+
+# Exercício 2
+
+Vamos ajustar os parâmetros da função
+
+#### $f(x) = e^{\frac{-x}{\beta_1}} + \beta_2$
+
+```{python}
+# Vamos Ler o arquivo de entrada
+x, y = np.loadtxt('exercicio_2.dat', unpack=True)
+```
+
+```{python}
+# Vamos criar a função que queremos ajustar
+def funcao(x, beta_1, beta_2):
+    return np.exp(-x/beta_1) + beta_2
+```
+
+```{python}
+# Visuaizando os dados
+pl.plot(x, y, 'k.-')
+pl.show()
+```
+
+```{python}
+# Visualizando os dados e um modelo qualquer
+pl.plot(x, y, 'k.-')
+
+y_model = funcao(x, beta_1=1, beta_2=-4)
+
+# Computando o valor dos mínimos quadrados
+S = np.sum((y - y_model)**2)
+print(S)
+pl.plot(x, y_model, 'r-')
+pl.show()
+```
+
+```{python}
+beta_1 = np.random.uniform(-100, 100, 100000)
+beta_2 = np.random.uniform(-100, 100, 100000)
+```
+
+```{python}
+pl.plot(beta_1, beta_2, 'k.')
+```
+
+```{python}
+from tqdm import tqdm
+
+S = np.array([])
+
+for i in tqdm(range(len(beta_1))): 
+    y_model = funcao(x, beta_1=beta_1[i], beta_2=beta_2[i])
+    S = np.append(S, np.sum((y - y_model)**2))
+```
+
+```{python}
+pl.plot(beta_1, S, 'k.')
+pl.ylim(0, 10)
+#pl.xlim(0, 50)
+```
+
+```{python}
+pl.plot(beta_2, S, 'k.')
+pl.ylim(0, 2)
+pl.xlim(0, 5)
+```
+
+```{python}
+print(beta_1[S.argmin()])
+print(beta_2[S.argmin()])
+```
+
+```{python}
+pl.plot(x, y, 'k.-')
+
+y_model = funcao(x, beta_1=15.446324928570547, beta_2=2.987769552921577)
+
+S = np.sum((y - y_model)**2)
+print(S)
+pl.plot(x, y_model, 'r-')
+pl.show()
+```
+
+O ajuste parece OK, mas será que estamos de fato nos melhores valores?
+
+```{python}
+# Refazer, agora mais próximo da solução
+
+beta_1 = np.random.uniform(0, 100, 100000)
+beta_2 = np.random.uniform(-10, 10, 100000)
+```
+
+```{python}
+from tqdm import tqdm
+
+S = np.array([])
+
+for i in tqdm(range(len(beta_1))): 
+    y_model = funcao(x, beta_1=beta_1[i], beta_2=beta_2[i])
+    S = np.append(S, np.sum((y - y_model)**2))
+```
+
+```{python}
+pl.plot(beta_1, S, 'k.')
+pl.ylim(0, 1)
+```
+
+```{python}
+pl.plot(beta_2, S, 'k.')
+pl.ylim(0, 1)
+```
+
+```{python}
+print(beta_1[S.argmin()])
+print(beta_2[S.argmin()])
+```
+
+```{python}
+pl.plot(x, y, 'k.-')
+
+y_model = funcao(x, beta_1=18.77266155859759, beta_2=2.9917787435681813)
+
+S = np.sum((y - y_model)**2)
+print(S)
+pl.plot(x, y_model, 'r-')
+pl.show()
+```
+
+Quanto mais modelos fizermos mais próximos do resultado real estaremos!
+
+# Como fazer com o Scipy
+
+```{python}
+from scipy.optimize import curve_fit
+```
+
+```{python}
+# Funçao Curve_fit fará o ajuste para você de forma eficiente
+param, error = curve_fit(funcao, x, y)
+```
+
+```{python}
+print('Valores: ', param)
+print('Incertezas: ', np.sqrt(np.diagonal(error)))
+```
+
+# Isso é tudo
+By BEM
+

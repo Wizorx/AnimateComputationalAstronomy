@@ -1,0 +1,353 @@
+---
+title: Cálculo Numérico
+jupyter: python3
+---
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as pl
+```
+
+# Calcular numéricamente a Derivada de Funções
+
+```{python}
+# Vamos definir a função
+def funcao(x):
+    return x**2 + 10 
+```
+
+```{python}
+#| tags: []
+# Para visualização, como a curva se comporta
+x = np.arange(-10, +10, 0.0001)
+pl.plot(x, funcao(x), 'k-')
+pl.show()
+```
+
+```{python}
+# Definir um passo e determinar a derivada
+
+h = 0.001
+dx = (funcao(x + h) - funcao(x - h))/(2*h)
+```
+
+```{python}
+#| tags: []
+# Vamos visualizar a derivada
+pl.plot(x, dx, 'r-')
+```
+
+```{python}
+#| tags: []
+# Como o que obtivemos numéricamente se assemelha com o resultado algebrico?
+
+pl.plot(x, 2*x,color='g', lw=5, ls='--')
+pl.plot(x, dx, 'r-')
+
+# Perfeitamente!
+```
+
+### Como fazer a derivada numérica de dados?
+
+```{python}
+# Lendo nossos dados
+
+x, y = np.loadtxt('exercicio_3.dat', unpack=True)
+```
+
+```{python}
+# Visualizando
+
+pl.plot(x, y, 'k-')
+pl.show()
+```
+
+```{python}
+#| tags: []
+# Computando o menor passo possível, a diferença entre dois pontos
+print(x[2] - x[0] )
+print(x[3] - x[1] )
+```
+
+```{python}
+# Determinando a derivada
+
+derivada = np.array([])
+
+for i in range(1, len(x) - 1):
+    dx = (y[i+1] - y[i-1])/(x[i+1] - x[i-1])
+    derivada = np.append(derivada, dx)
+```
+
+```{python}
+# Visualizando a derivada
+pl.plot(x[1:-1], derivada, 'r-')
+pl.show()
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+from scipy.differentiate import derivative
+```
+
+```{python}
+resultado = derivative(funcao, x)
+dx = resultado.df
+```
+
+```{python}
+pl.plot(x, dx)
+```
+
+# Calcular numéricamente a Integral de Funções
+
+```{python}
+# Vamos definir a função
+def funcao(x):
+    return x**2 + 10 
+```
+
+```{python}
+x = np.arange(-10, +10, 0.0001)
+
+h = 0.0001
+integral = 0
+
+for i in range(len(x) - 1):
+    integral += (h/2)*(funcao(x[i]) + funcao(x[i+1]))
+    
+print(integral)
+```
+
+Algebricamente o resultado seria:
+
+$\frac{x^3}{3} + 10x$, começando em x = -10, até x = 10
+
+
+```{python}
+xx = [-10, 10]
+((xx[1]**3)/3 + 10*xx[1]) - ((xx[0]**3)/3 + 10*xx[0])
+```
+
+Quanto menor for o passo mais próximo do resultado correto chegaremos
+
+### Como fazer a integral numérica de dados?
+
+```{python}
+# Lendo o arquivo de entrada
+x, y = np.loadtxt('exercicio_4.dat', unpack=True)
+```
+
+```{python}
+# Visualizando
+pl.plot(x, y)
+```
+
+```{python}
+integral = 0
+
+for i in range(len(x) - 1):
+    integral += ((x[i+1] - x[i])/2)*(y[i] + y[i+1])
+    
+print(integral)
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+from scipy.integrate import trapezoid
+
+### Ou
+
+# from scipy.integrate import trapz # No caso de Python 2
+```
+
+```{python}
+pl.plot(x, y)
+pl.fill_between(x, y, 0)
+```
+
+```{python}
+trapezoid(y, x)
+```
+
+# Isso é tudo
+By BEM
+
+
+#### by BEM, Last update: 10/07/2023
+
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as pl
+```
+
+# Calcular numéricamente a Derivada de Funções
+
+```{python}
+# Vamos definir a função
+def funcao(x):
+    return x**2 + 10 
+```
+
+```{python}
+#| tags: []
+# Para visualização, como a curva se comporta
+x = np.arange(-10, +10, 0.0001)
+pl.plot(x, funcao(x), 'k-')
+pl.show()
+```
+
+```{python}
+# Definir um passo e determinar a derivada
+
+h = 0.001
+dx = (funcao(x + h) - funcao(x - h))/(2*h)
+```
+
+```{python}
+#| tags: []
+# Vamos visualizar a derivada
+pl.plot(x, dx, 'r-')
+```
+
+```{python}
+#| tags: []
+# Como o que obtivemos numéricamente se assemelha com o resultado algebrico?
+
+pl.plot(x, 2*x,color='g', lw=5, ls='--')
+pl.plot(x, dx, 'r-')
+
+# Perfeitamente!
+```
+
+### Como fazer a derivada numérica de dados?
+
+```{python}
+# Lendo nossos dados
+
+x, y = np.loadtxt('exercicio_3.dat', unpack=True)
+```
+
+```{python}
+# Visualizando
+
+pl.plot(x, y, 'k-')
+pl.show()
+```
+
+```{python}
+#| tags: []
+# Computando o menor passo possível, a diferença entre dois pontos
+print(x[2] - x[0] )
+print(x[3] - x[1] )
+```
+
+```{python}
+# Determinando a derivada
+
+derivada = np.array([])
+
+for i in range(1, len(x) - 1):
+    dx = (y[i+1] - y[i-1])/(x[i+1] - x[i-1])
+    derivada = np.append(derivada, dx)
+```
+
+```{python}
+# Visualizando a derivada
+pl.plot(x[1:-1], derivada, 'r-')
+pl.show()
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+from scipy.differentiate import derivative
+```
+
+```{python}
+resultado = derivative(funcao, x)
+dx = resultado.df
+```
+
+```{python}
+pl.plot(x, dx)
+```
+
+# Calcular numéricamente a Integral de Funções
+
+```{python}
+# Vamos definir a função
+def funcao(x):
+    return x**2 + 10 
+```
+
+```{python}
+x = np.arange(-10, +10, 0.0001)
+
+h = 0.0001
+integral = 0
+
+for i in range(len(x) - 1):
+    integral += (h/2)*(funcao(x[i]) + funcao(x[i+1]))
+    
+print(integral)
+```
+
+Algebricamente o resultado seria:
+
+$\frac{x^3}{3} + 10x$, começando em x = -10, até x = 10
+
+
+```{python}
+xx = [-10, 10]
+((xx[1]**3)/3 + 10*xx[1]) - ((xx[0]**3)/3 + 10*xx[0])
+```
+
+Quanto menor for o passo mais próximo do resultado correto chegaremos
+
+### Como fazer a integral numérica de dados?
+
+```{python}
+# Lendo o arquivo de entrada
+x, y = np.loadtxt('exercicio_4.dat', unpack=True)
+```
+
+```{python}
+# Visualizando
+pl.plot(x, y)
+```
+
+```{python}
+integral = 0
+
+for i in range(len(x) - 1):
+    integral += ((x[i+1] - x[i])/2)*(y[i] + y[i+1])
+    
+print(integral)
+```
+
+#### Como fazer com o scipy?
+
+```{python}
+from scipy.integrate import trapezoid
+
+### Ou
+
+# from scipy.integrate import trapz # No caso de Python 2
+```
+
+```{python}
+pl.plot(x, y)
+pl.fill_between(x, y, 0)
+```
+
+```{python}
+trapezoid(y, x)
+```
+
+# Isso é tudo
+By BEM
+

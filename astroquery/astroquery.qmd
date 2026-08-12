@@ -1,0 +1,250 @@
+---
+title: Astroquery
+jupyter: python3
+---
+
+
+#### by BEM, Last update: 19/05/2023
+
+Sumário:
+1. [Buscando um catalogo](#pt1)
+2. [Buscando um objeto](#pt2)
+3. [Buscando uma região](#pt3)
+4. [Lidando com os Dados](#pt4)
+
+
+
+**Mais detalhes na documentação oficial do Astroquery (https://astroquery.readthedocs.io/)**
+
+## 1) Buscando um catalogo
+<a id="pt1"></a>
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as pl
+```
+
+```{python}
+# $ pip install astroquery
+
+from astroquery.vizier import Vizier
+```
+
+```{python}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+Vizier.find_catalogs?
+```
+
+```{python}
+catalog_list = Vizier.find_catalogs('NOMAD')
+
+print(catalog_list)
+```
+
+```{python}
+type(catalog_list)
+```
+
+```{python}
+for k,v in catalog_list.items():
+    print(k, v.description)
+```
+
+## 2) Buscando um objeto
+<a id="pt2"></a>
+
+```{python}
+#| tags: []
+result = Vizier.query_object('NGC322', catalog='Gaia')
+
+print(result)
+```
+
+```{python}
+# Acessando o catálogo de interesse, usando o indice
+
+interesting_table = result[7]
+print(interesting_table)
+```
+
+```{python}
+# Acessando o catálogo de interesse, usando o identificador
+
+interesting_table = result['I/358/vclassre']
+print(interesting_table)
+```
+
+# Buscando Keywords especificas de um catalogo e aplicando filtros
+
+```{python}
+v = Vizier(catalog='I/297/out', keywords=['optical'])
+
+result = v.query_object('HD 226868')
+print(result)
+```
+
+```{python}
+type(result)
+```
+
+```{python}
+print(result['I/297/out'])
+```
+
+```{python}
+df = result['I/297/out']
+```
+
+```{python}
+df
+```
+
+
+```{python}
+type(df)
+```
+
+```{python}
+df.keys()
+```
+
+```{python}
+df['Jmag']
+```
+
+```{python}
+# Podemos escolher quais colunas queremos pegar e aplicar filtros
+v = Vizier(columns=['RAJ2000', 'DEJ2000', 'Vmag', 'Bmag','B-V'], catalog='NOMAD',
+           column_filters={'Vmag':'>10'}, keywords=['optical'])
+```
+
+```{python}
+result = v.query_object('HD 226868')
+print(result)
+```
+
+```{python}
+print(result['I/297/out'])
+```
+
+```{python}
+df = result['I/297/out']
+```
+
+```{python}
+df
+```
+
+```{python}
+df['B-V'] = df['Bmag'] - df['Vmag']
+```
+
+```{python}
+df
+```
+
+## 3) Buscando uma região
+<a id="pt3"></a>
+
+```{python}
+v = Vizier(#columns=['_RAJ2000', '_DEJ2000','B-V', 'Vmag', 'Bmag'], 
+           catalog='I/297/out',
+           column_filters={'Vmag':'>10'}, keywords=['optical'])
+```
+
+```{python}
+#| tags: []
+v.query_region?
+```
+
+```{python}
+#| tags: []
+import astropy.units as u
+
+result = v.query_region('299.561497200	35.201692200', radius=10*u.arcmin)
+print(result['I/297/out'])
+```
+
+```{python}
+result['I/297/out'].keys()
+```
+
+```{python}
+# Note que o resultado é sempre uma tabela com 50 elementos, concidencia?
+v.ROW_LIMIT
+```
+
+```{python}
+v.ROW_LIMIT = 100
+```
+
+```{python}
+result = v.query_region('299.561497200	35.201692200', radius=10*u.arcmin)
+print(result['I/297/out'])
+```
+
+```{python}
+v.ROW_LIMIT = 10000
+```
+
+```{python}
+result = v.query_region('299.561497200	35.201692200', radius=10*u.arcmin)
+print(result['I/297/out'])
+```
+
+
+```{python}
+df2 = result['I/297/out']
+```
+
+```{python}
+df2.write('output_astroq.csv', format='csv')
+```
+
+```{python}
+df2.write?
+```
+
+```{python}
+df5 = pd.read_csv('output_aq.csv')
+```
+
+```{python}
+df5
+```
+
+```{python}
+# Levando o catálogo para o Pandas
+df3 = df2.to_pandas()
+```
+
+```{python}
+type(df3)
+```
+
+```{python}
+from astroquery import nasa_ads as na
+```
+
+```{python}
+na.ADS.TOKEN = 'fgo81KRQVaxNngpL3zOmGgO8JraFaLSbzf7HwXQA'
+```
+
+```{python}
+results = na.ADS.query_simple('author:"Morgado, Bruno", aff:"Valongo"')
+```
+
+```{python}
+results
+```
+
+
+
+
+
+# Isso é tudo
+By BEM
+

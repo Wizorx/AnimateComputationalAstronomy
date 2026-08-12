@@ -1,0 +1,769 @@
+---
+title: 'OS e Numpy'
+format:
+  live-html:
+    code-fold: false
+    code-line-numbers: true
+pyodide:
+  packages:
+      - numpy
+      - glob
+      - os
+---
+
+
+## OS: Miscellaneous operating system interface 
+
+Aqui começamos com o pacote que nos permite navegar o sistema operacional
+- Navegar os diretórios
+
+```{pyodide}
+import os
+```
+
+```{pyodide}
+# os.system('ls') # Linux
+os.system('dir') # Windows 
+
+# O que aconteceu? Deem uma olhada no terminal que está rodando o Jupyter!
+```
+
+```{webr}
+# os.system('ls') # Linux
+os.system('dir') # Windows 
+
+# O que aconteceu? Deem uma olhada no terminal que está rodando o Jupyter!
+```
+
+```{pyodide}
+# Informações uteis do seu computador 
+os.cpu_count()
+```
+
+```{pyodide}
+# Lista os diretorios
+os.listdir('..')
+```
+
+```{pyodide}
+# buscar o diretório atual
+os.getcwd()
+```
+
+```{pyodide}
+# Criando um novo diretório
+os.mkdir('Teste_1')
+```
+
+```{pyodide}
+os.listdir('.')
+```
+
+```{pyodide}
+# Mudando de diretório
+os.chdir('Teste_1/')
+```
+
+```{pyodide}
+os.getcwd()
+```
+
+```{pyodide}
+os.chdir('..')
+```
+
+```{pyodide}
+os.getcwd()
+```
+
+```{pyodide}
+# renomeando um diretório
+os.rename('Teste_1/', 'Teste_2/')
+```
+
+```{pyodide}
+os.listdir('.')
+```
+
+```{pyodide}
+# Removendo um diretório
+os.rmdir('Teste_2/')
+```
+
+```{pyodide}
+os.listdir('.')
+```
+
+```{pyodide}
+# Vamos criar um arquivo de texto vazio
+file = open('texto.txt','w')
+
+file.close()
+```
+
+```{pyodide}
+os.listdir('.')
+```
+
+```{pyodide}
+# Mudando o nome de um arquivo
+os.rename('texto.txt','texto_novo.txt')
+```
+
+```{pyodide}
+os.listdir()
+```
+
+```{pyodide}
+# Deletando um arquivo
+os.remove('texto_novo.txt')
+```
+
+```{pyodide}
+os.listdir()
+```
+
+```{pyodide}
+os.listdir()
+```
+
+**<u>Extra:</u>** Se quiser receber só alguns arquivos específicos
+
+```{pyodide}
+import glob
+```
+
+```{pyodide}
+glob.glob('*.ipynb') # Igual faria no terminal
+```
+
+## Numpy: Array 
+
+Um pacote que visa automatizar e permite fazer operações matemáticas de forma eficiente.
+
+```{pyodide}
+import numpy as np
+```
+
+```{pyodide}
+# Uma das grandes habilidades do Numpy é o np.array()
+
+lista_1 = [2,3,5,9,7]
+lista_2 = [6,7,2,1,3]
+```
+
+```{pyodide}
+# Há a concatenação!
+lista_1 + lista_2
+```
+
+```{pyodide}
+# Mas eu querof azer operações! Neste caso:
+
+lista_1 = np.array([2,3,5,9,7])
+lista_2 = np.array([6,7,2,1,3])
+```
+
+```{pyodide}
+type(lista_1)
+```
+
+```{pyodide}
+lista_1 + lista_2
+```
+
+Facilmente podemos fazer operações entre dois arrays de mesmo tamanho, ou então 1 array e um valor
+
+```{pyodide}
+# Vai somar cada elemento pelo menos valor
+
+lista_1 + 5
+```
+
+pyodide é orientado ao objeto! Existem diversas funções já inseridas no objeto `numpy.ndarray`
+
+```{pyodide}
+# média
+lista_1.mean()
+```
+
+```{pyodide}
+# soma
+lista_1.sum()
+```
+
+```{pyodide}
+# variancia
+lista_1.var()
+```
+
+```{pyodide}
+# desvio padrão
+lista_1.std()
+```
+
+```{pyodide}
+lista_1.max()
+```
+
+```{pyodide}
+lista_1.argmax()
+```
+
+```{pyodide}
+lista_1[3]
+```
+
+```{pyodide}
+lista_1.argmin()
+```
+
+```{pyodide}
+lista_1[0]
+```
+
+```{pyodide}
+lista_1.min()
+```
+
+### Agora, como criar um array?
+
+```{pyodide}
+# similar ao range, mas criando arrays
+np.arange(10)
+```
+
+```{pyodide}
+#inicio, final, passo
+
+np.arange(10, 100, 5) # de 10, até 100, de 5 em 5
+```
+
+```{pyodide}
+#uma outra opção é usar o linspace
+
+np.linspace(10,100, 7) # aqui você define o primeiro, o ultimo e quantos números você quer
+```
+
+```{pyodide}
+# quero criar um conjunto de 0s
+np.zeros(10)
+```
+
+```{pyodide}
+# quero criar um conjunto de 1s
+np.ones(10)
+```
+
+```{pyodide}
+# quero repetir algo N vezes
+
+np.repeat(100, 7)
+```
+
+```{pyodide}
+# também válido para outras coisas
+
+np.repeat('teste', 7)
+```
+
+```{pyodide}
+np.repeat(True, 7)
+```
+
+```{pyodide}
+# quero um número inteiro randomico
+np.random.randint(low=0, high=10, size=5)
+```
+
+```{pyodide}
+# podemos receber números randômicos que seguem uma distribuição 
+np.random.normal(loc=0, scale=1, size=100)
+```
+
+```{pyodide}
+# teste outras distribuições!
+# ...
+```
+
+## Numpy: Matrizes 
+
+Um dos principais tipos de dados na Astronomia -> Imagens astronômicas
+Logo, não só de listas vive o astronômo.
+
+```{pyodide}
+print(lista_1)
+lista_1.size
+```
+
+```{pyodide}
+lista_1.shape
+```
+
+```{pyodide}
+# mas se queremos combinar arrays
+
+lista_3 = np.array([lista_1, lista_2])
+```
+
+```{pyodide}
+print(lista_3)
+
+lista_3.shape
+```
+
+```{pyodide}
+# podemos criar essas matrizes igual criamos os arrays
+
+np.ones([5,7])
+```
+
+```{pyodide}
+np.zeros([7,5])
+```
+
+```{pyodide}
+# e podemos combinar dois arrays para criar uma matriz,algo como uma análise combinatório
+
+lista_1_mx, lista_2_mx = np.meshgrid(lista_1, lista_2)
+```
+
+```{pyodide}
+print(lista_1_mx)
+```
+
+```{pyodide}
+print(lista_2_mx)
+```
+
+```{pyodide}
+# Como sempre, podemos operar diretamente
+matrix = lista_1_mx + lista_2_mx
+```
+
+```{pyodide}
+print(matrix)
+```
+
+```{pyodide}
+# podemos pegar os elementos da diagonal
+matrix.diagonal()
+```
+
+**Agora, o que acontece se fazemos uso de algumas funções padrões do Numpy**
+
+```{pyodide}
+matrix
+```
+
+```{pyodide}
+# Esse é o valor médio considerando TODOS os pontos
+matrix.mean()
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+np.mean?
+```
+
+```{pyodide}
+matrix = np.meshgrid(np.arange(7),np.arange(10,15))
+```
+
+```{pyodide}
+matrix = matrix[0] + 5*matrix[1]  
+```
+
+```{pyodide}
+m3 = np.array([matrix,5*matrix])
+```
+
+```{pyodide}
+m3.shape
+```
+
+```{pyodide}
+# porém podemos controlar em cima de que eixo queremos que a conta seja feita
+m3.mean(axis=2)
+```
+
+```{pyodide}
+matrix.mean(axis=1)
+```
+
+```{pyodide}
+print(matrix.sum(axis=0))
+print(matrix.sum(axis=1))
+```
+
+```{pyodide}
+# além disso, podemos alterar o shape da nossa matrix
+print(matrix.shape, matrix.size)
+```
+
+```{pyodide}
+matrix.reshape([35,1])
+```
+
+```{pyodide}
+matrix.reshape([1,35])
+```
+
+```{pyodide}
+# Que é a mesma coisa que:
+matrix.ravel()
+```
+
+```{pyodide}
+# também funciona de forma invertida
+
+array = np.arange(0,20)
+```
+
+```{pyodide}
+print(array.shape, array.size)
+```
+
+```{pyodide}
+#| error: true
+array.reshape([2,10])
+```
+
+```{pyodide}
+array.reshape([5,4])
+```
+
+```{pyodide}
+#| error: true
+array.reshape([10,5])
+```
+
+**Importante: Em** `array.reshape([N, M])` **N vs M tem que ser igual ao** `size`
+
+## Numpy: Funções Especiais 
+<a id="pt4"></a>
+
+Além disso, o Numpy tem um conjunto gigantesco de funções que podemos utilizar
+
+```{pyodide}
+# Exemplo, queremos tirar a raiz quadrada
+np.sqrt(4)
+```
+
+```{pyodide}
+# Exemplo, queremos trabalhar com trigonometria
+angulo = 30
+
+print(np.sin(angulo))
+print(np.cos(angulo))
+print(np.tan(angulo))
+```
+
+**Importante: o padrão é ângulos serem em radianos!**
+
+```{pyodide}
+np.sin?
+```
+
+```{pyodide}
+# Como saber o ângulo em radianos? Sempre podemos fazer a conta
+
+print(np.deg2rad(30))
+print(np.rad2deg(3.1415))
+```
+
+```{pyodide}
+# Exemplo, queremos trabalhar com trigonometria
+angulo = np.deg2rad(30)
+
+print(np.sin(angulo))
+print(np.cos(angulo))
+print(np.tan(angulo))
+```
+
+```{pyodide}
+# Inclusive, temos o valor de pi
+print(np.pi)
+print(np.sin(np.pi))
+print(np.cos(np.pi))
+```
+
+```{pyodide}
+# Também temos os arcos
+
+print ( np.arcsin (0.5) )
+print ( np.arccos (0.5) )
+```
+
+```{pyodide}
+np.round(np.pi, 5)
+```
+
+```{pyodide}
+print(np.rad2deg(np.arcsin(0.5)))
+print(np.rad2deg(np.arccos(0.5)))
+```
+
+```{pyodide}
+# Temos também o "e" (número de Euler)
+np.e
+```
+
+```{pyodide}
+np.log(100)
+```
+
+**Novamente, o padrão é logaritimo neperiano**
+
+```{pyodide}
+np.log(np.e**5)
+```
+
+```{pyodide}
+# Mas se eu quero o log de 10?
+np.log10(10**7)
+```
+
+```{pyodide}
+np.log2(2048)
+```
+
+**em vez de usar** `np.e**valor` **também podemos utilizar** `np.exp()`
+
+```{pyodide}
+print(np.exp(2))
+print(np.e**2)
+```
+
+**Exercício, escreva em pyodide a seguinte equação:**
+
+- $mu = 5$
+- $sigma = 1$
+- $x = 2$
+
+## $ y = \frac{1}{\sigma.\sqrt{2.\pi}} . exp\left[ \frac{-(x - \mu)^2}{2\sigma^2}\right]$
+
+```{pyodide}
+sigma = 1.
+mu = 5
+x = 2.
+
+y  = (1 / (sigma*np.sqrt(2*np.pi))) * np.exp(-((x - mu)**2)/(2*(sigma**2)))
+
+print(y)
+```
+
+**Vamos fazer um primeiro ajuste!**
+
+Com o numpy podemos fazer de forma rápida um ajuste polinomial usando `numpy.polyfit()`
+
+```{pyodide}
+x = np.arange(0, 100)
+y = 5*x + 2.0
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+np.polyfit?
+```
+
+```{pyodide}
+y
+```
+
+```{pyodide}
+poli = np.polyfit(x, y, deg=1)
+```
+
+```{pyodide}
+poli
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+np.polyfit?
+```
+
+Isso sigifica:
+
+$y = a[0].x^1 + a[1].x^0$
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+np.polyfit??
+```
+
+```{pyodide}
+np.polyfit(x, y, deg=2)
+```
+
+Isso sigifica:
+
+$y = a[0].x^2 + a[1].x^1 + a[2].x^0$
+
+```{pyodide}
+np.polyfit(x, y, deg=3)
+```
+
+Isso sigifica:
+
+$y = a[0].x^3 + a[1].x^2 + a[2].x^1 + a[3].x^0$
+
+```{pyodide}
+#Podemos também calcular a raiz de uma equação polinomial
+
+polinomio = np.array([5., 2.])
+```
+
+```{pyodide}
+np.roots?
+```
+
+```{pyodide}
+np.roots(poli)
+```
+
+```{pyodide}
+# Válido também para casos mais complexos
+
+polinomio = np.array([ 7.14701903e-19, -1.17901910e-16,  5.00000000e+00,  2.00000000e+00])
+
+raizes = np.roots(polinomio)
+
+print(raizes)
+```
+
+```{pyodide}
+# número complexos!
+c = raizes[2]
+print(c)
+```
+
+```{pyodide}
+type(c)
+```
+
+```{pyodide}
+float(c)
+```
+
+```{pyodide}
+print(c.imag)
+print(c.real)
+```
+
+**Para finalizar, uma coisa importante, como salvar e ler arquivos usando Numpy**
+
+```{pyodide}
+# Quero colocar meu x e y em um arquivo!
+
+np.savetxt('nome_arquivo.txt', x)
+```
+
+```{pyodide}
+# Pera, quero colocar o x E o Y
+
+np.savetxt('nome_arquivo.txt', np.array([x, y]))
+```
+
+```{pyodide}
+# Ficou no formato de duas linhas, com mil colunas! Quero invertido.
+
+np.savetxt('nome_arquivo.txt', np.array([x, y]).T)
+```
+
+```{pyodide}
+# Agora quero controlar o formato desses dados
+
+np.savetxt?
+```
+
+```{pyodide}
+np.savetxt('nome_arquivo.txt', 
+           np.array([x, y]).T,
+           fmt='%.6f')
+```
+
+```{pyodide}
+# Ok, sei salvar, como eu leio?
+a = np.loadtxt('nome_arquivo.txt')
+```
+
+```{pyodide}
+a
+```
+
+```{pyodide}
+# Pera, ficou no formato de 2 linhas por muitas colunas, quero invertido
+
+a.T
+```
+
+```{pyodide}
+a = np.loadtxt('nome_arquivo.txt', unpack=True)
+```
+
+```{pyodide}
+a[1]
+```
+
+```{pyodide}
+# Além, podemos designar variaveis diferentes para cada coluna
+
+a, b = np.loadtxt('nome_arquivo.txt', unpack=True)
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+a
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+b
+```
+
+```{pyodide}
+#| collapsed: true
+#| jupyter: {outputs_hidden: true}
+#| tags: []
+# Além disso temos uma grande gama de opções
+np.loadtxt?
+```
+
+```{pyodide}
+# Exemplo, quero usar apenas um das colunas e não todas
+
+b = np.loadtxt('nome_arquivo.txt', unpack=True, usecols=[1])
+```
+
+```{pyodide}
+b
+```
+
+```{pyodide}
+# quero pular as 5 primeiras linhas
+b = np.loadtxt('nome_arquivo.txt', unpack=True, usecols=[1], skiprows=5)
+
+# Util quando o nosso arquivo de entrada possui um cabeçalho (header)!
+```
+
+```{pyodide}
+b
+```
+
+# Isso é tudo
+By BEM
+

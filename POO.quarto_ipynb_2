@@ -1,0 +1,823 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Python Orientado a Objetos\n",
+        "jupyter: python3\n",
+        "---\n",
+        "\n",
+        "## Funções \n",
+        "\n",
+        "Quando precisamos repetir muitas vezes um pedaço de código, faz mais sentido transformalo em uma função:\n",
+        "- def -> Definir uma função\n",
+        "- return -> O que a função retorna"
+      ],
+      "id": "ad8a02b8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def soma(a, b):\n",
+        "    return a + b"
+      ],
+      "id": "0f7a5fff",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3)"
+      ],
+      "id": "29f67e4e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# as variaveis dentro da função ficam dentro da função, a menos que você retorne elas\n",
+        "\n",
+        "def soma(a, b):\n",
+        "    c = 10\n",
+        "    return a + b + c"
+      ],
+      "id": "8314c2f1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3)"
+      ],
+      "id": "739f68f6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| error: true\n",
+        "print(c)"
+      ],
+      "id": "4961a5f8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "O que acontece dentro da função fica dentro da função..."
+      ],
+      "id": "01977899"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Podemos dar valores predefinidos as variaveis\n",
+        "def soma(a, b=5):\n",
+        "    return a + b"
+      ],
+      "id": "1176249a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(5)"
+      ],
+      "id": "3c707c94",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(a=5)"
+      ],
+      "id": "a421a1b2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(5, 2)"
+      ],
+      "id": "545d5bd4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# não necessariamente é necessário retornar algo\n",
+        "\n",
+        "def soma_1(a, b):\n",
+        "    print(a + b)\n",
+        "    return\n",
+        "\n",
+        "def soma_2(a, b):\n",
+        "    return a + b"
+      ],
+      "id": "cfbb7693",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Qual a diferença?\n",
+        "\n",
+        "soma_1(2, 5)\n",
+        "soma_2(2, 5)"
+      ],
+      "id": "56f4eb9b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "valor = soma_1(2, 5)"
+      ],
+      "id": "79cf8bfa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(valor)"
+      ],
+      "id": "b71e53ca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "valor = soma_2(2, 5)"
+      ],
+      "id": "c6a168dd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(valor)"
+      ],
+      "id": "791bba1e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Além deles, também temos:\n",
+        "\n",
+        "- args -> Argumentos das funções \n",
+        "- kwargs -> Argumentos com Keyword"
+      ],
+      "id": "2a5e22e2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#Vamos supor que queremos fazer a soma, mas o usuário pode escolher quantos valores ele quer colocar.\n",
+        "\n",
+        "def soma(a,b):\n",
+        "    return a+b"
+      ],
+      "id": "44aa6c54",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| error: true\n",
+        "soma(2,3,5)"
+      ],
+      "id": "13342d6a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Solução, usar os argumentos\n",
+        "\n",
+        "def soma(*args):\n",
+        "    soma = 0\n",
+        "    for valor in args:\n",
+        "        soma += valor\n",
+        "    return soma"
+      ],
+      "id": "dd528f91",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3)"
+      ],
+      "id": "1797bdbb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3,5,6,7)"
+      ],
+      "id": "ab7f7aca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Em resumo, você pode ter quantos argumentos você quiser, mas sem ter q se preocupar em definir cada um deles.\n",
+        "\n",
+        "Podemos inclusive colocar algumas informações extras"
+      ],
+      "id": "bac956b8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def soma(*args, verbose=False):\n",
+        "    soma = 0\n",
+        "    for valor in args:\n",
+        "        if verbose:\n",
+        "            print('somando {:+.1f}'.format(valor))\n",
+        "        soma += valor\n",
+        "    return soma"
+      ],
+      "id": "4611f6b2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "valor = soma(2,3,5,6,7)\n",
+        "print(valor)"
+      ],
+      "id": "5a147add",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "valor = soma(2,3,5,6,7, verbose=True)\n",
+        "print(valor)"
+      ],
+      "id": "64e92971",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Mas Bruno, eu preciso definir cada uma das variaveis nomeadas no inicio?"
+      ],
+      "id": "fcb6de19"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Aqui você pode usar os kwargs:\n",
+        "\n",
+        "def soma(*args, **kwargs):\n",
+        "    soma = 0\n",
+        "    print(kwargs)\n",
+        "    for valor in args:\n",
+        "        soma += valor\n",
+        "    return soma"
+      ],
+      "id": "1a25ed8f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3,5,4, teste='sim', valor='quero', verbose=True)"
+      ],
+      "id": "4762ea5d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "O kwargs é um dicinário! Então como trabalhar com ele?"
+      ],
+      "id": "7f03751c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def soma(*args, **kwargs):\n",
+        "    soma = 0\n",
+        "    if 'verbose' in kwargs:\n",
+        "        verbose = kwargs['verbose']\n",
+        "    for valor in args:\n",
+        "        if verbose:\n",
+        "            print('somando {:+.1f}'.format(valor))\n",
+        "        soma += valor\n",
+        "    return soma"
+      ],
+      "id": "a14576b8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3,4,5, verbose=True)"
+      ],
+      "id": "ffcc6118",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "soma(2,3,4,5, verbose=True, extra='teste')"
+      ],
+      "id": "fbe59b48",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "O que aconteceu com esse extra? Nada!\n",
+        "\n",
+        "**<u>ATENÇÃO:</u>**  Na hora de fazer uma função é muito importante definir sua Docstring"
+      ],
+      "id": "445b5a0d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def soma(valor_inicial, *args, **kwargs):\n",
+        "    \"\"\"Soma os valores adicionados.\n",
+        "\n",
+        "    Parâmetros\n",
+        "    ----------\n",
+        "    valor_inicial : `int`, `float`,\n",
+        "        Número inicial que será somado.\n",
+        "\n",
+        "    args : `int`, `float`,\n",
+        "        Números que serão somados a variavel valor.\n",
+        "\n",
+        "    Kwargs\n",
+        "    ----------\n",
+        "    verbose : `bool`\n",
+        "        Se `True`, irá mostrar informações durante as operações.\n",
+        "\n",
+        "    Returns\n",
+        "    -------\n",
+        "    soma : `int`, `float`\n",
+        "        Soma final dos parâmetros de entrada\n",
+        "    \"\"\"\n",
+        "    soma = valor_inicial\n",
+        "    if 'verbose' in kwargs:\n",
+        "        verbose = kwargs['verbose']\n",
+        "    for valor in args:\n",
+        "        if verbose:\n",
+        "            print('somando {:+.1f}'.format(valor))\n",
+        "        soma += valor\n",
+        "    return soma"
+      ],
+      "id": "07ad1a7c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Agora eu consigo ler a docstring\n",
+        "soma?"
+      ],
+      "id": "0ad174ff",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# também consigo ver o código interno\n",
+        "soma??"
+      ],
+      "id": "d8bd3001",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Classes \n",
+        "\n",
+        "Quando apenas algumas funções não são o suficiente, criamos uma Classe de objetos:"
+      ],
+      "id": "e0986ba4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class Gatos:\n",
+        "    \"\"\" \n",
+        "    Dockstring blablabla\n",
+        "    \"\"\"\n",
+        "\n",
+        "    def __init__(self, *, numero=0):\n",
+        "        self.contagem = numero\n",
+        "        self.dono = 'Você'\n",
+        "\n",
+        "    @property\n",
+        "    def quantos(self):\n",
+        "        return self.contagem\n",
+        "\n",
+        "    def adicionar(self, numero):\n",
+        "        \"\"\"\n",
+        "        adicionar número de gatos\n",
+        "        \"\"\"\n",
+        "        print('Você tem mais gatos!')\n",
+        "        self.contagem += numero\n",
+        "        return numero\n",
+        "\n",
+        "    def mudar_dono(self, name):\n",
+        "        \"\"\"\n",
+        "        adiciona o nome do dono\n",
+        "        \"\"\"\n",
+        "        self.dono = name\n",
+        "        return"
+      ],
+      "id": "072dd236",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt = Gatos()"
+      ],
+      "id": "11814f79",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "type(gt)"
+      ],
+      "id": "752828a2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.dono"
+      ],
+      "id": "58013c58",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.contagem"
+      ],
+      "id": "b2c8aa2a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.adicionar(2)"
+      ],
+      "id": "c5de0406",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.contagem"
+      ],
+      "id": "df4bd4f1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.mudar_dono('Bruno')"
+      ],
+      "id": "84d73e47",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.dono"
+      ],
+      "id": "adc2d820",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class Gatos:\n",
+        "    \"\"\" \n",
+        "    Dockstring blablabla\n",
+        "    \"\"\"\n",
+        "\n",
+        "    def __init__(self, *, numero=0):\n",
+        "        self.contagem = numero\n",
+        "        self.dono = 'Você'\n",
+        "\n",
+        "    @property\n",
+        "    def quantos(self):\n",
+        "        return self.contagem\n",
+        "\n",
+        "    def adicionar(self, numero):\n",
+        "        \"\"\"\n",
+        "        adicionar número de gatos\n",
+        "        \"\"\"\n",
+        "        print('Você tem mais gatos!')\n",
+        "        self.contagem += numero\n",
+        "        return numero\n",
+        "\n",
+        "    def mudar_dono(self, name):\n",
+        "        \"\"\"\n",
+        "        adiciona o nome do dono\n",
+        "        \"\"\"\n",
+        "        self.dono = name\n",
+        "        return\n",
+        "\n",
+        "    def __repr__(self):\n",
+        "        \"\"\"\n",
+        "        Representação na forma de String\n",
+        "        \"\"\"\n",
+        "        return '{} tem {} gatos'.format(self.dono, self.contagem)\n",
+        "\n",
+        "    def __str__(self):\n",
+        "        \"\"\"\n",
+        "        Representação na forma de string quando o print(obj) é usado\n",
+        "        \"\"\"\n",
+        "        return 'você está fazendo o print, e {} tem {} gatos'.format(self.dono, self.contagem)"
+      ],
+      "id": "1b050687",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt = Gatos()"
+      ],
+      "id": "30946d5c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt.dono"
+      ],
+      "id": "3354270a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(gt)"
+      ],
+      "id": "9e22c79f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gt"
+      ],
+      "id": "394d984e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Pacotes\n",
+        "\n",
+        "Existe uma grande gama de pacotes python, como usar?"
+      ],
+      "id": "4b42fcf7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# import numpy as np # -> Importando o pacote inteiro e atribuindo um alias a ele"
+      ],
+      "id": "1d043454",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy # -> Importando um pacote inteiro"
+      ],
+      "id": "6280da0d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "numpy.array?"
+      ],
+      "id": "0a2f5d8c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np # -> Importando o pacote inteiro e atribuindo um alias a ele\n",
+        "\n",
+        "np.array?"
+      ],
+      "id": "a9ae317f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "numpy.array == np.array"
+      ],
+      "id": "a26259e0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Não precisamos importar o pacote inteiro."
+      ],
+      "id": "9c9ca654"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from numpy import random as rd"
+      ],
+      "id": "9d1602ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "rd.randint(low=0, high=10) # -> Te devolve um número randomico entre o `low` e o `high` (Maiores detalhes na próxima aula)"
+      ],
+      "id": "4d6653db",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Podemos também pegar uma classe dentro de um módulo dentro de um pacote!\n",
+        "from astropy.time import Time"
+      ],
+      "id": "8c96157a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Time?"
+      ],
+      "id": "31fe5f73",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Vamos criar o nosso próprio pacote!**"
+      ],
+      "id": "d5ea82ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#### Lembrete, instalar o nov pacote, indo até o diretório onde encontramos o setup.py, e usar:\n",
+        "#### > pip install .\n",
+        "\n",
+        "#from bruno_projeto import * #Importando todas as funções/classes do pacote"
+      ],
+      "id": "96fb74e6",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\luanx\\AppData\\Roaming\\Python\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

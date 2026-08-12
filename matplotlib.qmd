@@ -1,0 +1,391 @@
+---
+title: 'Matplotlib'
+format:
+  live-html:
+    code-fold: false
+    code-line-numbers: true
+    css: style.css
+pyodide:
+  packages:
+      - numpy
+      - matplotlib
+jupyter: python3
+---
+
+```{python}
+#| eval: true
+#| include: false
+import IPython.core.page
+import matplotlib.pyplot as pl
+
+# Create a custom function to intercept the pager
+def print_page(strng, **kwargs):
+    # Sometimes the pager gets a dict of mime-types, sometimes just a string
+    if isinstance(strng, dict) and "text/plain" in strng:
+        print(strng["text/plain"])
+    else:
+        print(strng)
+
+# Override the default IPython pager globally
+IPython.core.page.page = print_page
+```
+
+## Gráficos
+
+```{pyodide}
+#| autorun: true
+# Iniciamos importando o Matplotlib
+import matplotlib.pyplot as pl
+import numpy as np
+```
+
+```{pyodide}
+#| autorun: true
+# Vamos criar dois arrays para servirem de dados ficticios
+x = np.arange(0, 100, 10)
+y = 5*x + 10
+```
+
+```{pyodide}
+#| autorun: true
+print(x)
+print(y)
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos fazer um plot de maneira imediada
+pl.plot(x, y)
+pl.show()
+```
+
+```{python}
+#| eval: true
+# Existem diferentes argumentos e Kwargs que podemos utilizar para modificar nossos plots
+pl.plot?
+```
+
+```{pyodide}
+#| autorun: true
+# Por exemplo
+
+pl.figure(figsize=[10, 3]) # Podemos definir as dimensões das figuras
+
+pl.plot(x, y, '^-', linewidth=3, color='blue') # as cores de cada plot, largura de linha, simbolos utilizados, etc
+pl.plot(x, 2*x + 5, '>:', lw=0.5, color='indigo')
+pl.plot(x, -2*x + 300, '<--', color='silver')
+pl.text(50, 300, 'Teste', fontsize=20, color='blue') # Podemos plotar texto
+pl.grid(False)
+
+pl.xlim(30, 60) # Definir os limites dos plots (em x)
+pl.ylim(100, 400) # Definir os limites dos plots (em y)
+
+pl.xlabel('Valores X', fontsize=15) # Definir os labels (em x)
+pl.ylabel(r'Valores $\Delta$ [km]', fontsize=15) # Definir os labels (em y)
+
+pl.xticks(np.array([35, 45, 55]),fontsize=15, rotation=-60) # Definir os ticks, (em x) suas posições, valores, e parâmetros
+pl.yticks(np.array([150, 250, 350]),fontsize=15, rotation=0) # Definir os ticks, (em x) suas posições, valores, e parâmetros
+
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Vamos criar um outro conjunto de dados, desta vez randomicos
+a = np.random.randint(0, 300, 10)
+```
+
+```{pyodide}
+#| autorun: true
+pl.bar(x, a, width=8) # Criando gráficos de barra
+pl.plot(x, a, color='red', lw=1, marker='*')
+#pl.xlim(15, 85)
+#pl.ylim(200, 300)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.barh(x, a, height=8) # Barras horizontais
+pl.plot(a, x, color='red', lw=1, marker='*')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.step(x, a) # Plots Steps
+pl.show()
+```
+
+```{python}
+#| eval: true
+pl.stem?
+```
+
+```{pyodide}
+#| autorun: true
+pl.stem(x, a, markerfmt ='yo', basefmt='g.', linefmt='blue') # Plots stem
+pl.stem(x, y, markerfmt ='ro', basefmt='g.', linefmt='blue')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Criando novos conjuntos de dados
+y2 = np.random.normal(0, 1, 100)
+y3 = np.random.normal(0, 1, 100)
+```
+
+```{pyodide}
+#| autorun: true
+pl.figure(figsize=[15,3])
+pl.plot(y2, '+', color='gray', alpha=1.0) # Outro parâmetro importante é o alpha, que controla trsnaparencia, 0 = transparente, 1.0 = opaco
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Outro exemplo de transparência
+
+pl.hist(y2, np.arange(-4, +4.5, 0.5), color='blue')
+pl.hist(y3, np.arange(-4, +4.5, 0.5), color='red', alpha=0.5) 
+pl.axvline(0, color='k')
+pl.axvline(+1, color='gray')
+pl.axvline(-1, color='gray')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(y2)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Criando gráficos com barra de erros
+pl.errorbar(x, y, yerr=a, xerr=2, linestyle='', marker='.', ecolor='red', color='k')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+y2 = 2*y
+```
+
+```{pyodide}
+#| autorun: true
+# Pintando uma região, utilizando o fill_between
+pl.plot(x, y, color='k')
+pl.fill_between(x, a, 2*a, alpha=0.5)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos utilizar o label para definir as legendas de cada elemento
+pl.plot(x, y, color='k', label='Area')
+pl.fill_between(x, a, 2*a, alpha=0.5, label='Reta')
+
+pl.legend(fontsize=15, loc=4) # podemos definir o tamanho e localização da legenda
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos também criar linhas retas (horizontais e na vertical)
+
+pl.plot(x, y, color='k', label='Area')
+pl.fill_between(x, a, 2*a, alpha=0.5, label='Reta')
+
+pl.axhline(400, color='red', label=r'$\chi^2$') # horizontal
+pl.axvline(60, color='blue', linestyle='--', label=r'$Bla^2$') # vertical 
+
+pl.legend(fontsize=15, loc=4)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Aqui podemos, ilustrar diferentes tamanhos, e diferentes cores para cada ponto  
+pl.scatter(x, y, s=a, c=2*a, cmap='cividis')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos também criar gráficos de Pizza
+x2 = np.array([15, 10 , 30])
+
+pl.pie(x2)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Plotando matrizes (imagens!)
+
+x, y = np.meshgrid(np.arange(1000), np.arange(1000))
+
+imagem = 5*x + 10*y
+```
+
+```{pyodide}
+#| autorun: true
+imagem
+```
+
+```{pyodide}
+#| autorun: true
+# Ao plotar imagens podemos escolher um mapa de cor e os pontos máximos e mínimos da coloração
+
+pl.imshow(imagem, cmap='terrain', vmin=5000, vmax=10000)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# Podemos adicionar a grade de valores também se desejarmos
+pl.imshow(imagem, cmap='terrain', vmin=5000, vmax=10000)
+pl.grid(True)
+```
+
+```{pyodide}
+#| autorun: true
+# controlando o cmap
+pl.imshow(imagem, cmap='gray')
+pl.show()
+```
+
+**Agora podemos combinar os diferentes plots utilizando uma grade de plots**
+
+```{pyodide}
+#| autorun: true
+# Importando o gridspec
+
+import matplotlib.gridspec as gridspec
+```
+
+```{pyodide}
+#| autorun: true
+fig = pl.figure(figsize=[10,5])
+
+gs = gridspec.GridSpec(2, 2) # Criando a nossa grade
+
+
+##############################################################################
+# Criando o primeiro plot na posição [0, 0]
+ax = fig.add_subplot(gs[0, 0])
+pl.imshow(imagem, cmap='terrain', vmin=5000, vmax=10000)
+pl.xticks([])
+
+##############################################################################
+# Criando o segundo plot na posição [0, 1]
+ax = fig.add_subplot(gs[0, 1])
+pl.imshow(imagem, cmap='terrain', vmin=5000, vmax=10000)
+pl.xticks([])
+
+##############################################################################
+# Criando o terceiro plot na posição [1, 1]
+ax = fig.add_subplot(gs[1, 1])
+pl.yticks([])
+pl.scatter(np.arange(10), 5*np.arange(10) + 10, s=a, c=2*a, cmap='cividis')
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+np.random.normal()
+```
+
+```{pyodide}
+#| autorun: true
+### Exercício, Faça um gráfico contendo 3 plots, 
+### o primeiro sendo um gráfico X vs Y, 
+### o segundo, acima do primeiro, contendo o histograma de X, 
+### e o terceiro, ao lado direito do primeiro, contendo o histograma de Y.
+```
+
+```{pyodide}
+#| autorun: true
+x = np.arange(0, 100, 10)
+y = 5*x + 10
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(x, y)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.bar(x, y)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.barh(x, y)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(x)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+y2 = np.random.normal(0, 1, 10000)
+```
+
+```{pyodide}
+#| autorun: true
+pl.hist(y2)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+pl.plot(y2)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# pl.scatter()
+# pl.errorbar()
+# pl.pie
+```
+
+```{pyodide}
+#| autorun: true
+x2 = np.array([15, 10 , 30])
+```
+
+```{pyodide}
+#| autorun: true
+pl.pie(x2)
+pl.show()
+```
+
+```{pyodide}
+#| autorun: true
+# pl.text()
+```
+
+## Editando os plots
+
+```{pyodide}
+#| autorun: true
+# figsize()
+# pl.xlim()
+# pl.ylim()
+# pl.xticks()
+# pl.yticks()
+# pl.axis()
+# pl.title()
+# pl.legend()
+```
