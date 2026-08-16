@@ -1,9 +1,0 @@
-.scrolling {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.cell-output-stdout pre {
-    white-space: pre-wrap !important;
-    word-break: break-word !important;
-}
