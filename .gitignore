@@ -1,2 +1,11 @@
 /.quarto/
 **/*.quarto_ipynb
+/._book/
+/._extensions/
+/.vscode/
+/media/
+*.log
+*.aux
+*.toc
+*.quarto_ipynb
+uv.lock

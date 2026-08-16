@@ -2,38 +2,39 @@ project:
   type: book
 
 book:
-  title: "Métodos Computacionais da Astronomia"
+  title: "Astronomia Computacional Animada"
   author: 
     - "Bruno E. Morgado"
+    - "Helio J. Rocha Pinto"
     - "Luan M. Moraes (Org.)"
   chapters:
     - index.qmd
-    - part: "Python Básico"
+    - part: "Métodos Computacionais da Astronomia"
       chapters:
         - começo/comeco.qmd
         - POO.qmd
-    - part: "Pacotes Essenciais"
-      chapters:
         - os&np.qmd
         - matplotlib.qmd
         - pandas/pandas.qmd
         - astropy/astropy.qmd
         - astroquery/astroquery.qmd
-    - part: "Ferramentas Computacionais"
-      chapters:
         - latex.qmd
         - git.qmd
-    - part: "Ferramentas Matemáticas"
-      chapters:
         - raizes.qmd
         - ajuste/ajuste.qmd
         - montecarlo.qmd
         - calculo/calculo.qmd
         - edos.qmd
- 
+
+    - part: astroestatistica.qmd
+    
+    - part: tratamento.qmd
+
     - references.qmd
   appendices:
     - logica.qmd
+  repo-url: https://github.com/wizorx/AnimateComputationalAstronomy
+  repo-actions: [edit, source, issue]
 
 language:
   section-title-appendices: "Apêndices"
